@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Playful Earth Gamers</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"/>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:#050816;
+color:white;
+overflow-x:hidden;
+}
+
+/* SCROLLBAR */
+
+::-webkit-scrollbar{
+height:4px;
+width:5px;
+}
+
+::-webkit-scrollbar-thumb{
+background:#06b6d4;
+border-radius:20px;
+}
+
+/* GLASS */
+
+.glass{
+background:rgba(15,23,42,0.75);
+backdrop-filter:blur(18px);
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* HERO */
+
+.hero-bg{
+position:relative;
+overflow:hidden;
+}
+
+.hero-bg::before{
+content:'';
+position:absolute;
+inset:0;
+background-size:cover;
+background-position:center;
+animation:heroSlider 30s infinite;
+z-index:-2;
+}
+
+.hero-bg::after{
+content:'';
+position:absolute;
+inset:0;
+background:linear-gradient(to bottom,rgba(0,0,0,0.75),rgba(5,8,22,0.98));
+z-index:-1;
+}
+
+@keyframes heroSlider{
+
+0%{
+background-image:url('https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2070&auto=format&fit=crop');
+}
+
+25%{
+background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=2070&auto=format&fit=crop');
+}
+
+50%{
+background-image:url('https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?q=80&w=2070&auto=format&fit=crop');
+}
+
+75%{
+background-image:url('https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=2070&auto=format&fit=crop');
+}
+
+100%{
+background-image:url('https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=2070&auto=format&fit=crop');
+}
+
+}
+
+/* TEXT */
+
+.neon-text{
+text-shadow:
+0 0 10px #06b6d4,
+0 0 20px #06b6d4;
+}
+
+/* CARDS */
+
+.card-hover{
+transition:0.35s ease;
+}
+
+.card-hover:hover{
+transform:translateY(-6px);
+box-shadow:0 0 25px rgba(6,182,212,0.25);
+}
+
+/* LIVE DOT */
+
+.live-dot{
+width:8px;
+height:8px;
+border-radius:50%;
+background:#ef4444;
+animation:pulse 1s infinite;
+}
+
+@keyframes pulse{
+
+0%{
+transform:scale(1);
+}
+
+50%{
+transform:scale(1.5);
+}
+
+100%{
+transform:scale(1);
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+
+<nav class="fixed top-0 left-0 right-0 z-50 glass">
+
+<div class="max-w-screen-2xl mx-auto px-6 h-16 flex items-center justify-between">
+
+<div class="flex items-center gap-4">
+
+<div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-cyan-400 to-purple-600 flex items-center justify-center text-black font-black text-xl">
+P
+</div>
+
+<div>
+
+<h1 class="text-2xl font-black neon-text">
+PLAYFUL EARTH GAMERS
+</h1>
+
+<p class="text-xs text-zinc-400">
+Global Play & Earn Gaming Arena
+</p>
+
+</div>
+
+</div>
+
+<div class="hidden lg:flex items-center gap-7 text-sm font-semibold">
+
+<a href="#" class="hover:text-cyan-400 transition">
+Home
+</a>
+
+<a href="#games" class="hover:text-cyan-400 transition">
+Games
+</a>
+
+<a href="#live" class="hover:text-cyan-400 transition">
+Live Challenges
+</a>
+
+<a href="#" class="hover:text-cyan-400 transition">
+Leaderboards
+</a>
+
+<a href="#" class="hover:text-cyan-400 transition">
+Tournaments
+</a>
+
+</div>
+
+<button
+onclick="openMembershipModal()"
+class="bg-gradient-to-r from-yellow-400 to-amber-500 text-black font-bold px-5 py-2.5 rounded-2xl hover:scale-105 transition">
+
+<i class="fa-solid fa-crown mr-2"></i>
+JOIN EARLY MEMBER
+
+</button>
+
+</div>
+
+</nav>
+
+<!-- HERO -->
+
+<section class="hero-bg min-h-screen pt-24 pb-16">
+
+<!-- TOOLBAR -->
+
+<div class="sticky top-16 z-30 bg-black/50 backdrop-blur-xl border-y border-cyan-500/10">
+
+<div class="max-w-screen-2xl mx-auto px-6 py-4">
+
+<!-- GAMES TOOLBAR -->
+
+<div class="flex gap-3 overflow-x-auto pb-3">
+
+<button class="px-4 py-2 rounded-2xl bg-cyan-400 text-black font-bold whitespace-nowrap">
+ALL GAMES
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+EA FC 25
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+GTA V
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+COD Mobile
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+PUBG Mobile
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+Fortnite
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+NBA 2K25
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+Tekken 8
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+Free Fire
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+Rocket League
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+Valorant
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+Minecraft
+</button>
+
+<button class="px-4 py-2 rounded-2xl bg-zinc-800 whitespace-nowrap">
+Roblox
+</button>
+
+</div>
+
+<!-- PLATFORM TOOLBAR -->
+
+<div class="flex gap-4 overflow-x-auto pb-2">
+
+<div onclick="connectPlatform('PlayStation')"
+class="glass min-w-[240px] px-5 py-4 rounded-3xl flex items-center gap-4 cursor-pointer">
+
+<div class="w-14 h-14 rounded-2xl bg-blue-500 flex items-center justify-center text-2xl">
+<i class="fab fa-playstation"></i>
+</div>
+
+<div>
+
+<h4 class="font-bold text-lg">
+PlayStation
+</h4>
+
+<p class="text-sm text-zinc-400">
+Connect PSN Account
+</p>
+
+</div>
+
+</div>
+
+<div onclick="connectPlatform('Xbox')"
+class="glass min-w-[240px] px-5 py-4 rounded-3xl flex items-center gap-4 cursor-pointer">
+
+<div class="w-14 h-14 rounded-2xl bg-green-500 flex items-center justify-center text-2xl">
+<i class="fab fa-xbox"></i>
+</div>
+
+<div>
+
+<h4 class="font-bold text-lg">
+Xbox
+</h4>
+
+<p class="text-sm text-zinc-400">
+Connect Xbox Live
+</p>
+
+</div>
+
+</div>
+
+<div onclick="connectPlatform('App Store')"
+class="glass min-w-[240px] px-5 py-4 rounded-3xl flex items-center gap-4 cursor-pointer">
+
+<div class="w-14 h-14 rounded-2xl bg-zinc-200 text-black flex items-center justify-center text-2xl">
+<i class="fab fa-apple"></i>
+</div>
+
+<div>
+
+<h4 class="font-bold text-lg">
+App Store
+</h4>
+
+<p class="text-sm text-zinc-400">
+Apple Gaming
+</p>
+
+</div>
+
+</div>
+
+<div onclick="connectPlatform('Play Store')"
+class="glass min-w-[240px] px-5 py-4 rounded-3xl flex items-center gap-4 cursor-pointer">
+
+<div class="w-14 h-14 rounded-2xl bg-emerald-500 flex items-center justify-center text-2xl">
+<i class="fab fa-google-play"></i>
+</div>
+
+<div>
+
+<h4 class="font-bold text-lg">
+Play Store
+</h4>
+
+<p class="text-sm text-zinc-400">
+Google Gaming
+</p>
+
+</div>
+
+</div>
+
+<div onclick="connectPlatform('Steam')"
+class="glass min-w-[240px] px-5 py-4 rounded-3xl flex items-center gap-4 cursor-pointer">
+
+<div class="w-14 h-14 rounded-2xl bg-sky-500 flex items-center justify-center text-2xl">
+<i class="fab fa-steam"></i>
+</div>
+
+<div>
+
+<h4 class="font-bold text-lg">
+Steam
+</h4>
+
+<p class="text-sm text-zinc-400">
+Connect Steam
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- HERO CONTENT -->
+
+<div class="max-w-screen-2xl mx-auto px-6 pt-20 grid lg:grid-cols-2 gap-16 items-center">
+
+<div>
+
+<div class="inline-flex items-center gap-2 bg-red-500/20 border border-red-500/30 px-4 py-2 rounded-full mb-6">
+
+<div class="live-dot"></div>
+
+<span class="text-sm">
+LIVE GAMING CHALLENGES ACTIVE
+</span>
+
+</div>
+
+<h2 class="text-5xl lg:text-7xl font-black leading-tight mb-6">
+
+PLAY.<br>
+COMPETE.<br>
+EARN.
+
+</h2>
+
+<p class="text-zinc-300 text-lg leading-relaxed mb-10 max-w-xl">
+
+Join players worldwide in live gaming challenges,
+real-time tournaments,
+and competitive 1v1 battles.
+
+</p>
+
+<div class="flex flex-wrap gap-4">
+
+<button
+onclick="scrollToGames()"
+class="bg-cyan-500 hover:bg-cyan-400 text-black font-bold px-8 py-4 rounded-2xl">
+
+Explore Games
+
+</button>
+
+<button
+class="border border-cyan-500 hover:bg-cyan-500/10 px-8 py-4 rounded-2xl font-bold">
+
+Watch Live Arena
+
+</button>
+
+</div>
+
+</div>
+
+<div class="grid grid-cols-2 gap-5">
+
+<div class="glass rounded-3xl p-6 card-hover">
+
+<div class="text-5xl font-black text-cyan-400">
+35+
+</div>
+
+<p class="text-zinc-300 mt-2">
+Supported Games
+</p>
+
+</div>
+
+<div class="glass rounded-3xl p-6 card-hover">
+
+<div class="text-5xl font-black text-emerald-400">
+$25K+
+</div>
+
+<p class="text-zinc-300 mt-2">
+Prize Challenges
+</p>
+
+</div>
+
+<div class="glass rounded-3xl p-6 card-hover">
+
+<div class="text-5xl font-black text-purple-400">
+12K+
+</div>
+
+<p class="text-zinc-300 mt-2">
+Active Gamers
+</p>
+
+</div>
+
+<div class="glass rounded-3xl p-6 card-hover">
+
+<div class="text-5xl font-black text-yellow-400">
+LIVE
+</div>
+
+<p class="text-zinc-300 mt-2">
+Arena Streaming
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- GAMES -->
+
+<section id="games" class="py-20">
+
+<div class="max-w-screen-2xl mx-auto px-6">
+
+<div class="mb-10">
+
+<h2 class="text-4xl font-black mb-3">
+ONE ON ONE CHALLENGES
+</h2>
+
+<p class="text-zinc-400">
+Challenge real players worldwide in live 1v1 battles
+</p>
+
+</div>
+
+<div id="gamesGrid"
+class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- LIVE CHALLENGES -->
+
+<section id="live" class="pb-24">
+
+<div class="max-w-screen-2xl mx-auto px-6">
+
+<h2 class="text-4xl font-black mb-10">
+LIVE CHALLENGES
+</h2>
+
+<div id="challengeGrid"
+class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
+
+</div>
+
+</div>
+
+</section>
+
+<!-- MEMBERSHIP MODAL -->
+
+<div id="membershipModal"
+class="fixed inset-0 bg-black/80 z-[100] hidden items-center justify-center p-6">
+
+<div class="glass rounded-[35px] max-w-md w-full p-8 relative">
+
+<button
+onclick="closeMembershipModal()"
+class="absolute top-5 right-5 text-zinc-400">
+
+<i class="fa-solid fa-xmark text-xl"></i>
+
+</button>
+
+<div class="text-center">
+
+<div class="w-24 h-24 rounded-full bg-gradient-to-br from-yellow-400 to-amber-500 flex items-center justify-center text-black text-5xl mx-auto mb-6">
+
+<i class="fa-solid fa-crown"></i>
+
+</div>
+
+<h3 class="text-3xl font-black mb-3">
+EARLY MEMBER
+</h3>
+
+<p class="text-zinc-300 mb-8">
+Get early access before official launch.
+</p>
+
+<input
+type="email"
+id="memberEmail"
+placeholder="Enter your email"
+class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4 mb-5 outline-none">
+
+<select
+id="memberCurrency"
+class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4 mb-6 outline-none">
+
+<option value="USD">$1 USD</option>
+<option value="GHS">₵10 GHS</option>
+
+</select>
+
+<button
+onclick="payWithPaystack()"
+class="w-full bg-gradient-to-r from-cyan-500 to-purple-600 py-4 rounded-2xl text-black font-black text-lg">
+
+JOIN NOW
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- FOOTER -->
+
+<footer class="border-t border-cyan-500/10 bg-black">
+
+<div class="max-w-screen-2xl mx-auto px-6 py-16">
+
+<div class="grid lg:grid-cols-3 gap-12">
+
+<div>
+
+<h2 class="text-3xl font-black neon-text mb-4">
+PLAYFUL EARTH GAMERS
+</h2>
+
+<p class="text-zinc-400 leading-relaxed">
+
+Compete in live gaming challenges,
+connect your gaming platforms,
+and earn rewards with players worldwide.
+
+</p>
+
+</div>
+
+<div>
+
+<h3 class="text-xl font-black mb-5">
+Quick Links
+</h3>
+
+<div class="space-y-3 text-zinc-400">
+
+<a href="#" class="block hover:text-cyan-400">
+Home
+</a>
+
+<a href="#games" class="block hover:text-cyan-400">
+Games
+</a>
+
+<a href="#live" class="block hover:text-cyan-400">
+Live Challenges
+</a>
+
+<a href="#" class="block hover:text-cyan-400">
+Leaderboards
+</a>
+
+</div>
+
+</div>
+
+<div>
+
+<h3 class="text-xl font-black mb-5">
+Stay Updated
+</h3>
+
+<input
+type="email"
+placeholder="Enter your email"
+class="w-full bg-zinc-900 border border-zinc-700 rounded-2xl px-5 py-4 mb-4 outline-none">
+
+<button
+class="w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-black font-black">
+
+SUBSCRIBE
+
+</button>
+
+</div>
+
+</div>
+
+<div class="border-t border-zinc-800 pt-6 mt-12 text-center text-zinc-500 text-sm">
+
+© 2026 Playful Earth Gamers — All Rights Reserved
+
+</div>
+
+</div>
+
+</footer>
+
+<script>
+
+const PAYSTACK_PUBLIC_KEY = "pk_test_xxxxxxxxxxxxxxxxx";
+
+/* GAMES */
+
+const games = [
+
+{
+name:"EA FC 25",
+image:"https://images.unsplash.com/photo-1574629810360-7efbbe195018?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+name:"COD Mobile",
+image:"https://images.unsplash.com/photo-1542751110-97427bbecf20?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+name:"GTA V",
+image:"https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+name:"PUBG Mobile",
+image:"https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+name:"Fortnite",
+image:"https://images.unsplash.com/photo-1511882150382-421056c89033?q=80&w=1200&auto=format&fit=crop"
+},
+
+{
+name:"Tekken 8",
+image:"https://images.unsplash.com/photo-1493711662062-fa541adb3fc8?q=80&w=1200&auto=format&fit=crop"
+}
+
+];
+
+/* CHALLENGES */
+
+const challenges = [
+
+{
+user:"GhostX",
+game:"EA FC 25",
+amount:"$5",
+status:"LIVE",
+avatar:"https://randomuser.me/api/portraits/men/32.jpg"
+},
+
+{
+user:"SavageYT",
+game:"GTA V",
+amount:"$12",
+status:"PENDING",
+avatar:"https://randomuser.me/api/portraits/men/41.jpg"
+},
+
+{
+user:"NeonGirl",
+game:"COD Mobile",
+amount:"$8",
+status:"LIVE",
+avatar:"https://randomuser.me/api/portraits/women/44.jpg"
+},
+
+{
+user:"BlazeKing",
+game:"PUBG Mobile",
+amount:"$15",
+status:"LIVE",
+avatar:"https://randomuser.me/api/portraits/men/55.jpg"
+}
+
+];
+
+function renderGames(){
+
+const container = document.getElementById("gamesGrid");
+
+container.innerHTML = games.map(game => `
+
+<div class="glass rounded-[28px] overflow-hidden card-hover">
+
+<div class="h-44 overflow-hidden">
+
+<img src="${game.image}"
+class="w-full h-full object-cover">
+
+</div>
+
+<div class="p-4">
+
+<h3 class="font-bold text-lg mb-4">
+${game.name}
+</h3>
+
+<button
+class="w-full py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-black font-bold">
+
+START CHALLENGE
+
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+function renderChallenges(){
+
+const container = document.getElementById("challengeGrid");
+
+container.innerHTML = challenges.map(challenge => `
+
+<div class="glass rounded-[30px] overflow-hidden card-hover">
+
+<div class="relative h-52">
+
+<img
+src="${challenge.avatar}"
+class="w-full h-full object-cover">
+
+<div class="absolute top-4 right-4 px-4 py-2 rounded-full text-xs font-bold
+${challenge.status === 'LIVE'
+? 'bg-red-500'
+: 'bg-yellow-500 text-black'}">
+
+${challenge.status}
+
+</div>
+
+</div>
+
+<div class="p-5">
+
+<div class="flex justify-between items-center mb-5">
+
+<div>
+
+<h4 class="font-bold text-lg">
+${challenge.user}
+</h4>
+
+<p class="text-cyan-400 text-sm">
+${challenge.game}
+</p>
+
+</div>
+
+<div class="text-2xl font-black text-emerald-400">
+${challenge.amount}
+</div>
+
+</div>
+
+<button
+onclick="joinChallenge('${challenge.user}','${challenge.game}')"
+class="w-full py-3 rounded-2xl bg-gradient-to-r from-cyan-500 to-purple-600 text-black font-black">
+
+JOIN CHALLENGE
+
+</button>
+
+</div>
+
+</div>
+
+`).join("");
+
+}
+
+function joinChallenge(user,game){
+
+alert(`You joined ${user}'s ${game} challenge`);
+
+}
+
+function scrollToGames(){
+
+document.getElementById("games").scrollIntoView({
+behavior:"smooth"
+});
+
+}
+
+function connectPlatform(platform){
+
+alert(platform + " connection coming soon");
+
+}
+
+function openMembershipModal(){
+
+document.getElementById("membershipModal").style.display = "flex";
+
+}
+
+function closeMembershipModal(){
+
+document.getElementById("membershipModal").style.display = "none";
+
+}
+
+function payWithPaystack(){
+
+const email = document.getElementById("memberEmail").value;
+
+const currency = document.getElementById("memberCurrency").value;
+
+if(!email){
+
+alert("Please enter your email");
+return;
+
+}
+
+let amount = 100;
+let currencyCode = "USD";
+
+if(currency === "GHS"){
+
+amount = 1000;
+currencyCode = "GHS";
+
+}
+
+const handler = PaystackPop.setup({
+
+key: PAYSTACK_PUBLIC_KEY,
+
+email: email,
+
+amount: amount,
+
+currency: currencyCode,
+
+ref: 'PEG_' + Math.floor((Math.random() * 1000000000) + 1),
+
+callback: function(response){
+
+alert("Payment successful! Ref: " + response.reference);
+
+closeMembershipModal();
+
+},
+
+onClose: function(){
+
+alert("Transaction cancelled");
+
+}
+
+});
+
+handler.openIframe();
+
+}
+
+renderGames();
+renderChallenges();
+
+</script>
+
+</body>
+</html>
