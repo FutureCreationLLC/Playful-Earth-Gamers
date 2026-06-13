@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playful Earth Gamers</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --accent: #00d4aa;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Inter", sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* FULL BACKGROUND SLIDES */
+.slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+}
+
+.slide::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+}
+
+.slide.active {
+    opacity: 1;
+}
+
+/* FLOATING PANEL (TOP RIGHT) */
+.panel {
+    position: absolute;
+    top: 40px;
+    right: 40px;
+    width: 420px;
+    max-width: 90%;
+    padding: 25px;
+    background: rgba(10,10,25,0.65);
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(0,212,170,0.25);
+    border-radius: 18px;
+    color: white;
+}
+
+/* TEXT */
+h1 {
+    font-size: 1.6rem;
+    color: var(--accent);
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1rem;
+    line-height: 1.6;
+    font-weight: 300;
+}
+
+.slogan {
+    margin-bottom: 12px;
+    color: #cfeee6;
+    font-weight: 500;
+}
+
+/* NAV */
+.nav {
+    position: fixed;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 12px;
+}
+
+button {
+    padding: 10px 20px;
+    border-radius: 40px;
+    border: 1px solid var(--accent);
+    background: rgba(255,255,255,0.08);
+    color: white;
+    cursor: pointer;
+}
+
+button:hover {
+    background: var(--accent);
+    color: black;
+}
+
+/* CTA */
+.primary {
+    background: var(--accent);
+    color: black;
+    border: none;
+    font-weight: 600;
+}
+</style>
+</head>
+
+<body>
+
+<!-- SLIDE 1 -->
+<div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1551105370-1f2d4c7c3f8a')">
+    <div class="panel">
+        <h1>🎮 PLAYFUL EARTH GAMERS</h1>
+        <div class="slogan">Play. Connect. Compete. Earn.</div>
+        <p>Welcome to a global gaming community built for connection, competition, and growth.</p>
+    </div>
+</div>
+
+<!-- SLIDE 2 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420')">
+    <div class="panel">
+        <h1>🌍 OUR MISSION</h1>
+        <p>To create a safe and inclusive gaming ecosystem that builds skills, teamwork, and opportunity.</p>
+    </div>
+</div>
+
+<!-- SLIDE 3 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1607853202273-797f1c22a38e')">
+    <div class="panel">
+        <h1>🎯 WHAT MEMBERS DO</h1>
+        <p>Join communities, compete, share, learn, and grow through gaming.</p>
+    </div>
+</div>
+
+<!-- SLIDE 4 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1542751371-adc38448a05e')">
+    <div class="panel">
+        <h1>🤝 VALUES</h1>
+        <p>Respect • Fair Play • Creativity • Growth • Inclusion</p>
+    </div>
+</div>
+
+<!-- SLIDE 5 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1552820728-8b83bb6b773f')">
+    <div class="panel">
+        <h1>🖥️ PC GAMING</h1>
+        <p>Competitive and immersive PC gaming experiences.</p>
+    </div>
+</div>
+
+<!-- SLIDE 6 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1600585154340-be6161a56a9c')">
+    <div class="panel">
+        <h1>🎮 CONSOLE & MOBILE</h1>
+        <p>Play anywhere across all devices and platforms.</p>
+    </div>
+</div>
+
+<!-- SLIDE 7 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1517702800918-2c8e6a5a7c5e')">
+    <div class="panel">
+        <h1>🏆 ESPORTS</h1>
+        <p>Competitive gaming and skill development.</p>
+    </div>
+</div>
+
+<!-- SLIDE 8 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1551105370-1f2d4c7c3f8a')">
+    <div class="panel">
+        <h1>🚀 EVENTS</h1>
+        <p>Tournaments, game nights, workshops, and creator events.</p>
+    </div>
+</div>
+
+<!-- SLIDE 9 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1542751371-adc38448a05e')">
+    <div class="panel">
+        <h1>⭐ BENEFITS</h1>
+        <p>Exclusive access, rewards, and recognition.</p>
+    </div>
+</div>
+
+<!-- SLIDE 10 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1511512578047-dfb367046420')">
+    <div class="panel">
+        <h1>💡 SUPPORT</h1>
+        <p>We grow through collaboration and innovation.</p>
+    </div>
+</div>
+
+<!-- SLIDE 11 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1607853202273-797f1c22a38e')">
+    <div class="panel">
+        <h1>🔮 FUTURE</h1>
+        <p>Expanding into global esports and creator systems.</p>
+    </div>
+</div>
+
+<!-- SLIDE 12 -->
+<div class="slide" style="background-image:url('https://images.unsplash.com/photo-1542751371-adc38448a05e')">
+    <div class="panel">
+        <h1>❤️ THANK YOU</h1>
+        <p>We are building the future of gaming together.</p>
+
+        <button class="primary" onclick="window.location.href='index.html'">
+            Go to Homepage
+        </button>
+    </div>
+</div>
+
+<!-- NAV -->
+<div class="nav">
+    <button onclick="prev()">Prev</button>
+    <button onclick="next()">Next</button>
+</div>
+
+<script>
+let i = 0;
+const slides = document.querySelectorAll(".slide");
+
+function show(n){
+    slides[i].classList.remove("active");
+    i = (n + slides.length) % slides.length;
+    slides[i].classList.add("active");
+}
+
+function next(){
+    show(i + 1);
+}
+
+function prev(){
+    show(i - 1);
+}
+</script>
+
+</body>
+</html>
