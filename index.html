@@ -103,7 +103,7 @@
     
     <!-- FOOTER (IMAGE 1 STYLE ARCHITECTURE) -->
     <footer>
-        <!-- Row 1: Feature Bar -->
+
         <div class="feature-bar">
             <div class="container" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); width: 100%;">
                 <div class="feature-item">
@@ -293,7 +293,7 @@
                 const userDoc = await db.collection("users").doc(cred.user.uid).get();
                 
                 if (userDoc.exists && userDoc.data().paidMember === true) {
-                    window.location.href = "index.html";
+                    window.location.href = "member.html";
                 } else {
                     alert("⚠️ Access Denied: Early Membership Fee ($1) required.");
                     await auth.signOut();
