@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEG | Playful Earth Games Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { background-color: #05010d; font-family: 'Inter', sans-serif; color: white; overflow-x: hidden; }
+        .gaming-font { font-family: 'Oswald', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255, 255, 255, 0.08); }
+        .game-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; position: relative; overflow: hidden; border-radius: 12px; }
+        .game-card:hover { transform: scale(1.05) translateY(-5px); z-index: 10; box-shadow: 0 20px 40px rgba(0,0,0,0.6), 0 0 20px rgba(124, 58, 237, 0.3); }
+        .game-card:hover .card-overlay { opacity: 1; }
+        .footer-link { color: #9ca3af; font-size: 0.85rem; display: block; margin-bottom: 0.75rem; transition: color 0.2s; }
+        .footer-link:hover { color: #ffffff; }
+        
+        /* Smooth Fade for Slideshow */
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; }
+        .slide.active { opacity: 1; }
+    </style>
+</head>
+<body>
+
+    <!-- NAV BAR (Discord Inspired) -->
+    <nav class="sticky top-0 z-[100] bg-[#05010d]/90 backdrop-blur-xl border-b border-white/5 px-8 py-3 flex items-center justify-between">
+        <div class="flex items-center gap-8">
+            <div class="text-3xl font-black italic text-purple-500 gaming-font tracking-tighter">PEG</div>
+            <div class="hidden lg:flex gap-6 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                <a href="#" class="hover:text-white transition">Home</a>
+                <a href="#" class="text-white border-b-2 border-purple-500 pb-1">Challenges</a>
+                <a href="#" class="hover:text-white transition">Tournaments</a>
+                <a href="#" class="hover:text-white transition">Community</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-4">
+            <div class="bg-white/5 border border-white/10 px-4 py-1.5 rounded-lg flex items-center gap-2">
+                <i data-lucide="search" class="w-4 h-4 text-gray-400"></i>
+                <input type="text" placeholder="Search Games..." class="bg-transparent border-none outline-none text-xs w-48">
+            </div>
+      
+        </div>
+        <div class="flex items-center gap-6">
+            <div class="flex items-center gap-3 bg-white/5 px-4 py-2 rounded-xl border border-white/10 cursor-pointer" onclick="location.href='profile.html'">
+                <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=ShadowX" class="w-7 h-7 rounded-full bg-purple-900">
+                <span class="text-xs font-bold">ShadowX</span>
+            </div>
+            <a href="welcome.html" class="border border-red-500/50 text-red-500 px-6 py-2 rounded-xl font-bold text-[10px] uppercase">LOGOUT</a>
+        </div>
+    </nav>
+
+    <main class="max-w-[1600px] mx-auto p-6 space-y-12">
+
+        <!-- LONG RECTANGULAR LEADERBOARD (Netflix/Epic Style Slideshow & Video Ads) -->
+        <section id="hero-slider" class="relative w-full h-[450px] rounded-[2rem] overflow-hidden border border-white/10 group">
+            
+            <!-- Slide 1: Commercial Video Ad -->
+            <div class="slide active overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-10"></div>
+                <!-- Note: Replace with actual video URL -->
+                <video autoplay muted loop class="w-full h-full object-cover opacity-60">
+                    <source src="https://cdn.pixabay.com/vimeo/327310574/video.mp4?width=1280&hash=5e5d3c8c5c5e8c1c5c5e8c1c5c5e8c1c5c5e8c1c" type="video/mp4">
+                </video>
+                <div class="absolute inset-0 z-20 flex flex-col justify-center p-16 space-y-4">
+                    <span class="bg-red-600 w-fit px-3 py-1 rounded text-[10px] font-black tracking-widest uppercase">Sponsored Ad</span>
+                    <h2 class="text-6xl font-black italic gaming-font">CYBERPUNK 2077</h2>
+                    <p class="max-w-xl text-gray-300">Experience the next generation of open-world adventure. Pre-order now and get exclusive PEG rewards.</p>
+                    <div class="flex gap-4 pt-4">
+                        <button class="bg-white text-black px-8 py-3 rounded-xl font-bold flex items-center gap-2 hover:bg-gray-200 transition">
+                            <i data-lucide="play" class="fill-current"></i> Watch Trailer
+                        </button>
+                        <button class="bg-white/10 backdrop-blur-md px-8 py-3 rounded-xl font-bold border border-white/20 hover:bg-white/20 transition">Learn More</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Slide 2: Image Slide (Dynamic Slideshow) -->
+            <div class="slide">
+                <div class="absolute inset-0 bg-gradient-to-r from-black via-black/20 to-transparent z-10"></div>
+                <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?q=80&w=2000" class="w-full h-full object-cover" alt="slide">
+                <div class="absolute inset-0 z-20 flex flex-col justify-center p-16 space-y-4">
+                    <h2 class="text-6xl font-black italic gaming-font text-purple-500 uppercase">Weekly Leaderboard</h2>
+                    <p class="text-2xl font-bold">ShadowX holds the #1 Spot!</p>
+                    <p class="max-w-md text-gray-400">Join the current Warzone Cup to climb the ranks and win from a $50,000 prize pool.</p>
+                </div>
+            </div>
+
+            <!-- Slider Controls -->
+            <div class="absolute bottom-8 right-8 z-30 flex gap-2">
+                <button onclick="prevSlide()" class="p-3 rounded-full glass hover:bg-white/20 transition"><i data-lucide="chevron-left"></i></button>
+                <button onclick="nextSlide()" class="p-3 rounded-full glass hover:bg-white/20 transition"><i data-lucide="chevron-right"></i></button>
+            </div>
+        </section>
+
+        <!-- 30 GAME CHALLENGES GRID (Steam/Epic Style) -->
+        <section>
+            <div class="flex justify-between items-end mb-8">
+                <div>
+                    <h3 class="text-3xl font-black italic gaming-font uppercase">Active Game Challenges</h3>
+                    <div class="flex gap-6 mt-4">
+                        <button class="text-xs font-black tracking-widest text-red-500 border-b-2 border-red-500 pb-2">LIVE CHALLENGES</button>
+                        <button class="text-xs font-black tracking-widest text-gray-500 hover:text-white transition pb-2">UPCOMING</button>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4 text-xs font-bold text-gray-400 uppercase tracking-widest">
+                    <span>Sort by:</span>
+                    <select class="bg-transparent border-none outline-none text-white cursor-pointer">
+                        <option>Most Popular</option>
+                        <option>Prize Pool</option>
+                        <option>Ending Soon</option>
+                    </select>
+                </div>
+            </div>
+            
+            <!-- The Grid - Population via JS -->
+            <div id="game-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-6">
+                <!-- Javascript will inject 30 items here -->
+            </div>
+        </section>
+
+        
+        <!-- FOOTER CONTENT: TOURNAMENTS, FUTURE, LIVE STREAM (IMAGE CONTENT) -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-16 border-t border-white/5">
+            <!-- Upcoming Tournaments -->
+            <div class="space-y-6">
+                <h4 class="text-xs font-black tracking-widest text-gray-500 uppercase">Upcoming Tournaments</h4>
+                <div class="space-y-4">
+                    <div class="glass p-4 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-4"><div class="w-10 h-10 bg-purple-900 rounded-lg flex items-center justify-center font-bold text-xs">24 MAY</div><div><p class="text-[10px] font-black">PUBG MOBILE INDIA CUP</p><p class="text-[8px] text-gray-500">64/128 Teams</p></div></div>
+                        <button class="bg-purple-600 text-[8px] font-black px-4 py-1.5 rounded uppercase">Register</button>
+                    </div>
+                    <div class="glass p-4 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-4"><div class="w-10 h-10 bg-purple-900 rounded-lg flex items-center justify-center font-bold text-xs">25 MAY</div><div><p class="text-[10px] font-black">APEX LEGENDS CUP</p><p class="text-[8px] text-gray-500">32/64 Teams</p></div></div>
+                        <button class="bg-purple-600 text-[8px] font-black px-4 py-1.5 rounded uppercase">Register</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Future Events -->
+            <div class="space-y-6">
+                <h4 class="text-xs font-black tracking-widest text-gray-500 uppercase">Future Events</h4>
+                <div class="space-y-4">
+                    <div class="glass p-4 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-4"><div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center font-bold text-xs text-gray-500">01 JUN</div><div><p class="text-[10px] font-black">ROCKET LEAGUE CUP</p><p class="text-[8px] text-gray-500">64 Teams</p></div></div>
+                        <button class="glass text-[8px] font-black px-4 py-1.5 rounded uppercase">Notify Me</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Now (Streams) -->
+            <div class="space-y-6">
+                <h4 class="text-xs font-black tracking-widest text-gray-500 uppercase">Live Now</h4>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between group cursor-pointer">
+                        <div class="flex items-center gap-3"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=TenZ" class="w-8 h-8 rounded-full border border-purple-500"><div class="text-[10px] font-black"><p>ShadowX</p><p class="text-gray-500">PUBG MOBILE</p></div></div>
+                        <div class="flex items-center gap-2 text-red-500 font-bold text-[9px] uppercase"><span class="animate-pulse">●</span> 4.2K</div>
+                    </div>
+                    <div class="flex items-center justify-between group cursor-pointer">
+                        <div class="flex items-center gap-3"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=Rai" class="w-8 h-8 rounded-full border border-purple-500"><div class="text-[10px] font-black"><p>Raistar</p><p class="text-gray-500">FREE FIRE MAX</p></div></div>
+                        <div class="flex items-center gap-2 text-red-500 font-bold text-[9px] uppercase"><span class="animate-pulse">●</span> 3.6K</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+    </main>
+
+    <!-- FOOTER (Exact match to second image) -->
+    <footer class="bg-[#040404] border-t border-white/5 mt-20 pt-20 pb-10">
+        <div class="max-w-[1400px] mx-auto px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
+                <div>
+                    <h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">ECOSYSTEM</h3>
+                    <a href="#" class="footer-link">Challenges</a>
+                    <a href="#" class="footer-link">Global Ranking</a>
+                    <a href="#" class="footer-link">Community Hub</a>
+                    <a href="#" class="footer-link">Hall of Fame</a>
+                </div>
+                <div>
+                    <h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">PLATFORMS</h3>
+                    <a href="#" class="footer-link">Mobile Arena</a>
+                    <a href="#" class="footer-link">PC Battleground</a>
+                    <a href="#" class="footer-link">Console Hub</a>
+                    <a href="#" class="footer-link">Arcade Center</a>
+                </div>
+                <div>
+                    <h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">FINANCE</h3>
+                    <a href="#" class="footer-link">PEG Wallet</a>
+                    <a href="#" class="footer-link">PEG Virtual Card</a>
+                    <a href="#" class="footer-link">Gamer Loans</a>
+                    <a href="#" class="footer-link">Security Recovery</a>
+                </div>
+                <div>
+                    <h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">ABOUT US</h3>
+                    <a href="#" class="footer-link">About PEG</a>
+                    <a href="#" class="footer-link">Privacy Policy</a>
+                    <a href="#" class="footer-link">Terms of Service</a>
+                    <a href="#" class="footer-link">Help Center</a>
+                </div>
+            </div>
+
+           <div class="flex flex-wrap justify-center items-center gap-8">
+
+    <img src="assets/logos/paystack.svg" alt="Paystack" class="h-8">
+
+    <img src="assets/logos/visa.svg" alt="Visa" class="h-8">
+
+    <img src="assets/logos/mastercard.svg" alt="Mastercard" class="h-10">
+
+    <img src="assets/logos/mtn-momo.png" alt="MTN MoMo" class="h-8">
+
+    <img src="assets/logos/telecel-cash.png" alt="Telecel Cash" class="h-8">
+
+    <img src="assets/logos/airteltigo-money.png" alt="AirtelTigo Money" class="h-8">
+
+</div>
+            
+                </div>
+               <!-- TRUST • SOCIAL • COPYRIGHT -->
+<div class="border-t border-white/5 pt-12 flex flex-col items-center">
+
+    <!-- PEG LOGO -->
+    <div class="mb-10 flex flex-col items-center">
+
+        <img
+            src="assets/logo/peg-logo.png"
+            alt="Playful Earth Gamers"
+            class="h-12 object-contain mb-4"
+        >
+
+        <p class="text-[10px] font-black tracking-[0.4em] text-gray-500 uppercase">
+            Playful Earth Gamers
+        </p>
+
+    </div>
+
+    <!-- TRUST BADGES -->
+    <div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 text-center">
+
+        <div>
+            <p class="text-[9px] font-black text-gray-600 tracking-[0.3em] mb-4 uppercase">
+                Delivery Services
+            </p>
+
+            <div class="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <i data-lucide="zap" class="w-5 h-5 text-yellow-500"></i>
+                <span class="text-sm font-bold text-gray-300">
+                    Instant Digital Payouts
+                </span>
+            </div>
+        </div>
+
+        <div>
+            <p class="text-[9px] font-black text-gray-600 tracking-[0.3em] mb-4 uppercase">
+                Security & Verification
+            </p>
+
+            <div class="flex items-center gap-3 px-5 py-3 rounded-xl bg-white/[0.02] border border-white/5">
+                <i data-lucide="shield-check" class="w-5 h-5 text-green-500"></i>
+                <span class="text-sm font-bold text-gray-300">
+                    SSL Secured Platform
+                </span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- SOCIAL MEDIA -->
+    <div class="mt-12">
+
+        <p class="text-[9px] font-black text-gray-600 tracking-[0.3em] mb-5 uppercase text-center">
+            Follow Us
+        </p>
+
+        <div class="flex flex-wrap justify-center items-center gap-6">
+
+            <a href="#">
+                <img src="assets/social/facebook.png" alt="Facebook" class="h-7">
+            </a>
+
+            <a href="#">
+                <img src="assets/social/instagram.png" alt="Instagram" class="h-7">
+            </a>
+
+            <a href="#">
+                <img src="assets/social/x.png" alt="X" class="h-7">
+            </a>
+
+            <a href="#">
+                <img src="assets/social/tiktok.png" alt="TikTok" class="h-7">
+            </a>
+
+            <a href="#">
+                <img src="assets/social/youtube.png" alt="YouTube" class="h-7">
+            </a>
+
+            <a href="#">
+                <img src="assets/social/discord.png" alt="Discord" class="h-7">
+            </a>
+
+            <a href="#">
+                <img src="assets/social/telegram.png" alt="Telegram" class="h-7">
+            </a>
+
+        </div>
+
+    </div>
+
+    <!-- DIVIDER -->
+    <div class="w-full max-w-4xl border-t border-white/5 my-10"></div>
+
+    <!-- COPYRIGHT -->
+    <div class="text-center">
+
+        <p class="text-[10px] font-black tracking-[0.35em] text-gray-600 uppercase mb-2">
+            PLAYFUL EARTH GAMERS (PEG)
+        </p>
+
+        <p class="text-[11px] text-gray-500 font-semibold mb-2">
+            © 2024 All Rights Reserved
+        </p>
+
+        <p class="text-[10px] text-gray-700 tracking-wide">
+            Global Gaming Competitions • Secure Payments • Digital Rewards
+        </p>
+
+    </div>
+
+</div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+
+        // 1. Generate 30 Game Challenges
+        const grid = document.getElementById('game-grid');
+        const gameTitles = ["PUBG Mobile", "Free Fire Max", "COD: Mobile", "Apex Legends", "Valorant", "FC 24", "Clash of Clans", "8 Ball Pool", "Minecraft", "Fortnite"];
+        
+        for (let i = 1; i <= 30; i++) {
+            const gameName = gameTitles[Math.floor(Math.random() * gameTitles.length)];
+            const card = `
+                <div class="game-card glass">
+                    <div class="h-44 relative bg-gray-900">
+                        <img src="https://picsum.photos/400/300?random=${i}" class="w-full h-full object-cover opacity-80" alt="game">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-60"></div>
+                        <div class="absolute top-2 right-2 bg-red-600 text-[8px] font-black px-2 py-0.5 rounded uppercase">Live</div>
+                    </div>
+                    <div class="p-4 space-y-2">
+                        <h4 class="font-black text-xs uppercase truncate">${gameName} Challenge #${i}</h4>
+                        <div class="flex justify-between text-[9px] font-bold text-gray-500 uppercase">
+                            <span>$${(Math.random() * 5000).toFixed(0)} Prize</span>
+                            <span>${(Math.random() * 500).toFixed(0)} Joined</span>
+                        </div>
+                        <div class="w-full h-1 bg-white/5 rounded-full overflow-hidden">
+                            <div class="h-full bg-purple-500" style="width: ${Math.random() * 100}%"></div>
+                        </div>
+                        <button class="w-full bg-white/5 hover:bg-purple-600 py-2 rounded-lg text-[9px] font-black uppercase tracking-widest transition">Join Now</button>
+                    </div>
+                </div>
+            `;
+            grid.innerHTML += card;
+        }
+
+        // 2. Simple Slideshow Logic
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach(s => s.classList.remove('active'));
+            slides[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // Auto-slide every 8 seconds
+        setInterval(nextSlide, 8000);
+    </script>
+</body>
+</html>

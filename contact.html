@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"><title>Contact Us | PEG</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .v-bg { position: fixed; top:0; left:0; width:100%; height:100%; object-fit:cover; z-index:-1; filter: brightness(0.2); }
+        .glass { background: rgba(255,255,255,0.03); backdrop-filter: blur(15px); border: 1px solid rgba(255,255,255,0.1); }
+        .input-style { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); }
+        .input-style:focus { border-color: #00ff88; box-shadow: 0 0 15px rgba(0,255,136,0.3); outline: none; }
+    </style>
+</head>
+<body class="text-white min-h-screen flex flex-col items-center">
+    <video class="v-bg" autoplay muted loop playsinline src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-a-code-34563-large.mp4"></video>
+
+    <!-- Navigation Header -->
+    <header class="w-full max-w-7xl flex justify-between items-center p-8">
+        <a href="index.html" class="text-4xl font-black italic text-green-500">PEG</a>
+        <nav class="space-x-8 text-xs font-bold uppercase tracking-widest opacity-70">
+            <a href="index.html" class="hover:text-green-500">Home</a>
+            <a href="profile.html" class="hover:text-green-500">Profile</a>
+            <a href="support.html" class="hover:text-green-500">Help</a>
+        </nav>
+    </header>
+
+    <main class="max-w-5xl w-full p-6 grid grid-cols-1 md:grid-cols-12 gap-8 mb-20">
+        <!-- Contact Information -->
+        <div class="md:col-span-5 space-y-6">
+            <h1 class="text-5xl font-black mb-4">Get in <span class="text-green-500">Touch.</span></h1>
+            <p class="text-gray-400">Our team is available 24/7 to ensure your gaming experience remains elite.</p>
+            
+            <div class="glass p-8 rounded-3xl space-y-8">
+                <div>
+                    <h4 class="text-xs font-black text-blue-400 uppercase mb-2">Platform Support</h4>
+                    <a href="mailto:office.playfulearthgamers@gmail.com" class="text-lg font-mono hover:text-green-400 transition-colors">office.playfulearthgamers@gmail.com</a>
+                </div>
+                <div>
+                    <h4 class="text-xs font-black text-green-400 uppercase mb-2">Executive Office (CEO)</h4>
+                    <a href="mailto:Head.ceo.playfulearthgamers@gmail.com" class="text-lg font-mono hover:text-green-400 transition-colors">Head.ceo.playfulearthgamers@gmail.com</a>
+                </div>
+            </div>
+
+            <div class="flex gap-6 text-2xl opacity-50">
+                <i class="fa-brands fa-discord cursor-pointer hover:text-blue-400"></i>
+                <i class="fa-brands fa-twitter cursor-pointer hover:text-white"></i>
+                <i class="fa-brands fa-instagram cursor-pointer hover:text-pink-500"></i>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="md:col-span-7 glass p-10 rounded-[40px]">
+            <form class="space-y-6">
+                <div class="grid grid-cols-2 gap-6">
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase font-bold text-gray-500">Full Name</label>
+                        <input type="text" class="input-style w-full p-4 rounded-xl" placeholder="John Doe">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="text-[10px] uppercase font-bold text-gray-500">Email Address</label>
+                        <input type="email" class="input-style w-full p-4 rounded-xl" placeholder="john@example.com">
+                    </div>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase font-bold text-gray-500">Subject</label>
+                    <select class="input-style w-full p-4 rounded-xl appearance-none">
+                        <option>Tournament Inquiry</option>
+                        <option>Wallet/Withdrawal Issue</option>
+                        <option>Partnership Proposal</option>
+                    </select>
+                </div>
+                <div class="space-y-2">
+                    <label class="text-[10px] uppercase font-bold text-gray-500">Message</label>
+                    <textarea rows="5" class="input-style w-full p-4 rounded-xl" placeholder="Describe your inquiry..."></textarea>
+                </div>
+                <button class="w-full bg-green-500 text-black py-4 rounded-xl font-black uppercase tracking-widest hover:bg-white transition-all shadow-lg shadow-green-500/20">Send Inquiry</button>
+            </form>
+        </div>
+    </main>
+</body>
+</html>
