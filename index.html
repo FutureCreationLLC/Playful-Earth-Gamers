@@ -3,11 +3,11 @@
 <head>
 
     <script>
-window.location.href = "members.html";
+window.location.href = "member.html";
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEG | Welcome Founders</title>
+    <title>PEG | Welcome Gamers</title>
     
     <!-- External Assets -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -282,7 +282,7 @@ window.location.href = "members.html";
                     paymentRef: ref,
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-                window.location.href = "index.html"; // Success!
+                window.location.href = "member.html"; // Success!
             } catch (err) { alert(err.message); }
         }
 
