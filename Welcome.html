@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEG | Welcome Founders</title>
+    
+    <!-- External Assets -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- SDKs -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        :root { --p-green: #00ff88; --p-purple: #a855f7; }
+        body { font-family: 'Inter', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+        .font-gamer { font-family: 'Orbitron', sans-serif; }
+
+        /* Video Background */
+        #bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: brightness(0.3); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to bottom, transparent, #000); z-index: -1; }
+
+        /* Glassmorphism */
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(25px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 40px; }
+        .input-style { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 15px; width: 100%; outline: none; transition: 0.3s; }
+        .input-style:focus { border-color: var(--p-green); box-shadow: 0 0 15px rgba(0, 255, 136, 0.2); }
+
+        .btn-green { background: var(--p-green); color: #000; font-weight: 900; transition: 0.3s; }
+        .btn-green:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(0, 255, 136, 0.4); }
+
+        .hidden-view { display: none !important; }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-gaming-setup-with-neon-lights-and-keyboard-close-up-34558-large.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="p-8 flex justify-between items-center max-w-7xl mx-auto relative z-10">
+        <h1 class="text-4xl font-black italic text-green-500 font-gamer">PEG</h1>
+        <button onclick="toggleAuth('login')" class="text-xs font-bold uppercase tracking-widest border border-white/20 px-8 py-3 rounded-full hover:bg-white/10 transition">Login</button>
+    </nav>
+
+    <main class="max-w-7xl mx-auto px-6 py-12 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
+        <!-- The Pitch Column -->
+        <div class="space-y-8">
+            <span class="bg-green-500/10 text-green-500 px-4 py-1 rounded-full text-[10px] font-black uppercase tracking-widest border border-green-500/20">Early Access Member Program</span>
+            <h2 class="text-7xl font-black italic leading-tight">THE EARTH IS YOUR <span class="text-green-500">ARENA.</span></h2>
+            <div class="glass p-8 space-y-6">
+                <h4 class="text-xl font-bold">Why pay the $1 Founders Fee?</h4>
+                <ul class="space-y-4 text-sm text-gray-400">
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-shield-check text-green-500 mt-1"></i> <span><strong>Bot Prevention:</strong> We ensure 100% real human competitors.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-gem text-purple-500 mt-1"></i> <span><strong>Founder Status:</strong> Get the permanent "Elite Competitor" badge.</span></li>
+                    <li class="flex items-start gap-3"><i class="fa-solid fa-percent text-blue-500 mt-1"></i> <span><strong>Zero Fees:</strong> Founders pay 0% commission on tournament winnings.</span></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Auth Column -->
+        <div class="glass p-12">
+            <!-- REGISTER VIEW -->
+            <div id="view-register">
+                <h3 class="text-3xl font-black mb-2 uppercase italic">Join Now</h3>
+                <p class="text-gray-500 text-sm mb-8 font-medium">Verify your region & pay the $1 activation fee.</p>
+                <form id="regForm" class="space-y-5">
+                    <select id="r-country" required class="input-style text-gray-400 text-sm">
+                        <option value="" disabled selected>Select Your Country</option>
+                        <option value="GH">Ghana (GHS)</option>
+                        <option value="NG">Nigeria (NGN)</option>
+                        <option value="KE">Kenya (KES)</option>
+                        <option value="ZA">South Africa (ZAR)</option>
+                        <option value="US">USA / International (USD)</option>
+                    </select>
+                    <input type="text" id="r-name" placeholder="Full Name" required class="input-style">
+                    <input type="email" id="r-email" placeholder="Email Address" required class="input-style">
+                    <input type="password" id="r-pass" placeholder="Create Password" required class="input-style">
+                    <button type="submit" class="w-full py-5 btn-green rounded-2xl uppercase tracking-widest text-sm">Pay $1 & Secure Access</button>
+                </form>
+            </div>
+
+            <!-- LOGIN VIEW -->
+            <div id="view-login" class="hidden-view">
+                <h3 class="text-3xl font-black mb-2 uppercase italic">Welcome Back</h3>
+                <p class="text-gray-500 text-sm mb-8 font-medium">Log in to enter the Global Arena.</p>
+                <form id="loginForm" class="space-y-5">
+                    <input type="email" id="l-email" placeholder="Email" required class="input-style">
+                    <input type="password" id="l-password" placeholder="Password" required class="input-style">
+                    <button type="submit" class="w-full py-5 bg-purple-600 font-black rounded-2xl uppercase tracking-widest text-sm hover:bg-purple-500 transition">Enter Platform</button>
+                </form>
+                <button onclick="toggleAuth('register')" class="w-full mt-6 text-xs text-gray-500 hover:text-green-500 transition">Don't have an account? Sign up</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- VIBRANT COLOR FOOTER -->
+    <footer class="bg-black/95 pt-24 pb-12 px-6 border-t border-white/5 relative z-10">
+        <div class="max-w-7xl mx-auto">
+            <!-- 3 Column Row Layout -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-16 mb-20">
+                <div class="space-y-6">
+                    <h4 class="text-xs font-black text-gray-500 uppercase tracking-widest">Ecosystem</h4>
+                    <ul class="space-y-3 text-sm font-bold text-gray-400">
+                        <li><a href="#" class="hover:text-white">Arena Challenges</a></li>
+                        <li><a href="#" class="hover:text-white">Global Leaderboard</a></li>
+                        <li><a href="#" class="hover:text-white">Hall of Fame</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="text-xs font-black text-gray-500 uppercase tracking-widest">Trust & Legal</h4>
+                    <ul class="space-y-3 text-sm font-bold text-gray-400">
+                        <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white">Help Center</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-6">
+                    <h4 class="text-xs font-black text-gray-500 uppercase tracking-widest">Connect</h4>
+                    <div class="flex gap-6 text-2xl">
+                        <a href="#" class="text-[#1877F2] hover:scale-110 transition"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="text-[#E4405F] hover:scale-110 transition"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="text-white hover:scale-110 transition"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="text-[#5865F2] hover:scale-110 transition"><i class="fa-brands fa-discord"></i></a>
+                        <a href="#" class="text-[#FF0000] hover:scale-110 transition"><i class="fa-brands fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Real Color Payment Logos Row -->
+            <div class="py-12 border-y border-white/5 flex flex-wrap justify-center items-center gap-12">
+                <img src="https://paystack.com/assets/img/login/paystack-logo.svg" class="h-6" alt="Paystack">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="h-4" alt="Visa">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" class="h-8" alt="Mastercard">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" class="h-10" alt="MTN MoMo">
+                <!-- Secure Badge -->
+                <div class="flex items-center gap-3 bg-white/5 px-6 py-2 rounded-full border border-white/10">
+                    <i class="fa-solid fa-shield-check text-green-500 text-xl"></i>
+                    <span class="text-[10px] font-black uppercase tracking-widest">SSL SECURED 256-BIT</span>
+                </div>
+            </div>
+
+            <p class="text-center mt-12 text-[9px] font-black text-gray-700 uppercase tracking-[10px]">© 2026 Playful Earth Global Ltd.</p>
+        </div>
+    </footer>
+
+    <script>
+        // --- 1. FIREBASE CONFIG ---
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // --- 2. UI UTILS ---
+        function toggleAuth(view) {
+            document.getElementById('view-register').classList.toggle('hidden-view', view === 'login');
+            document.getElementById('view-login').classList.toggle('hidden-view', view === 'register');
+        }
+
+        // --- 3. DYNAMIC WORLDWIDE PAYSTACK LOGIC ---
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('r-email').value;
+            const country = document.getElementById('r-country').value;
+            
+            // Map Country to approx $1 equivalent for Paystack
+            const pricing = {
+                "GH": { code: "GHS", rate: 15 },
+                "NG": { code: "NGN", rate: 1600 },
+                "KE": { code: "KES", rate: 130 },
+                "ZA": { code: "ZAR", rate: 19 },
+                "US": { code: "USD", rate: 1 }
+            };
+
+            const selected = pricing[country] || pricing["US"];
+            const amount = selected.rate * 100; // Paystack subunits
+
+            let handler = PaystackPop.setup({
+                key: 'YOUR_PAYSTACK_PUBLIC_KEY', // Public Key
+                email: email,
+                amount: amount,
+                currency: selected.code,
+                callback: function(res) {
+                    processRegistration(res.reference, country);
+                }
+            });
+            handler.openIframe();
+        });
+
+        // --- 4. FIREBASE AUTH & STORAGE ---
+        async function processRegistration(ref, country) {
+            const email = document.getElementById('r-email').value;
+            const pass = document.getElementById('r-pass').value;
+            const name = document.getElementById('r-name').value;
+            try {
+                const cred = await auth.createUserWithEmailAndPassword(email, pass);
+                await db.collection("users").doc(cred.user.uid).set({
+                    fullname: name,
+                    email: email,
+                    paidMember: true,
+                    country: country,
+                    paymentRef: ref,
+                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                });
+                window.location.href = "index.html"; // Success!
+            } catch (err) { alert(err.message); }
+        }
+
+        // --- 5. LOGIN WITH SECURITY CHECK ---
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try {
+                const cred = await auth.signInWithEmailAndPassword(
+                    document.getElementById('l-email').value, 
+                    document.getElementById('l-password').value
+                );
+                const userDoc = await db.collection("users").doc(cred.user.uid).get();
+                
+                if (userDoc.exists && userDoc.data().paidMember === true) {
+                    window.location.href = "index.html";
+                } else {
+                    alert("⚠️ Access Denied: Early Membership Fee ($1) required.");
+                    await auth.signOut();
+                }
+            } catch (err) { alert(err.message); }
+        });
+    </script>
+</body>
+</html>
