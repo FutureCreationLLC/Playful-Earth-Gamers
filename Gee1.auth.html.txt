@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Playful Earth Gamers</title>
+
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<style>
+
+/* ===================== GLOBAL ===================== */
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Segoe UI, sans-serif;
+}
+
+body{
+overflow-x:hidden;
+color:#fff;
+}
+
+/* ===================== VIDEO BACKGROUND ===================== */
+video{
+position:fixed;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-2;
+}
+
+.overlay{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.65);
+z-index:-1;
+}
+
+/* ===================== MAIN CARD ===================== */
+.card{
+width:min(450px,92%);
+margin:60px auto 30px;
+padding:35px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(25px);
+border:1px solid rgba(255,255,255,.15);
+border-radius:25px;
+box-shadow:0 20px 60px rgba(0,0,0,.5);
+text-align:center;
+}
+
+.logo{
+width:110px;
+margin-bottom:10px;
+}
+
+h2{
+font-size:26px;
+margin-bottom:5px;
+}
+
+p{
+opacity:.85;
+font-size:14px;
+margin-bottom:15px;
+}
+
+/* ===================== INPUTS ===================== */
+input{
+width:100%;
+padding:14px;
+margin-top:10px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,.12);
+color:#fff;
+outline:none;
+}
+
+button{
+width:100%;
+padding:14px;
+margin-top:12px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-weight:bold;
+}
+
+.primary{
+background:#22c55e;
+color:white;
+}
+
+.secondary{
+background:rgba(255,255,255,.15);
+color:white;
+}
+
+/* ===================== TRUST BADGES ===================== */
+.badges{
+display:flex;
+justify-content:space-between;
+gap:10px;
+margin:20px 0;
+flex-wrap:wrap;
+}
+
+.badge{
+flex:1;
+min-width:120px;
+padding:10px;
+border-radius:12px;
+background:rgba(255,255,255,.10);
+font-size:11px;
+text-align:center;
+}
+
+/* ===================== SECURITY NOTICE ===================== */
+.security{
+margin-top:15px;
+font-size:12px;
+opacity:.8;
+}
+
+/* ===================== FOOTER ===================== */
+footer{
+margin-top:40px;
+padding:40px 20px;
+background:rgba(0,0,0,.4);
+backdrop-filter:blur(10px);
+}
+
+.footer-grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:25px;
+max-width:1100px;
+margin:auto;
+}
+
+.footer-col h4{
+margin-bottom:10px;
+font-size:14px;
+color:#fff;
+}
+
+.footer-col a{
+display:block;
+color:#bbb;
+font-size:12px;
+text-decoration:none;
+margin-bottom:6px;
+transition:.2s;
+}
+
+.footer-col a:hover{
+color:#fff;
+}
+
+.bottom{
+text-align:center;
+margin-top:25px;
+font-size:12px;
+opacity:.7;
+}
+
+/* ===================== MOBILE ===================== */
+@media(max-width:768px){
+.footer-grid{
+grid-template-columns:1fr 1fr;
+}
+}
+
+@media(max-width:500px){
+.footer-grid{
+grid-template-columns:1fr;
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<video autoplay muted loop>
+<source src="assets/bg-video.mp4">
+</video>
+
+<div class="overlay"></div>
+
+<!-- ===================== AUTH CARD ===================== -->
+<div class="card">
+
+<img src="assets/logo.png" class="logo">
+
+<h2>Playful Earth Gamers</h2>
+
+<p>Early Access Membership — $1 One-Time Payment</p>
+
+<div class="badges">
+
+<div class="badge">🔒 Secure Payment</div>
+<div class="badge">⚡ Instant Access</div>
+<div class="badge">🛡️ Anti-Fraud Protected</div>
+
+</div>
+
+<input id="email" placeholder="Email">
+<input id="password" type="password" placeholder="Password">
+
+<button id="register" class="primary">Register & Pay</button>
+<button id="login" class="secondary">Login</button>
+
+<div class="security">
+Payments processed securely via Paystack • Verified by Firebase
+</div>
+
+</div>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+
+<div class="footer-grid">
+
+<!-- COLUMN 1 -->
+<div class="footer-col">
+<h4>About</h4>
+<a href="#">Our Mission</a>
+<a href="#">How It Works</a>
+<a href="#">Early Access</a>
+<a href="#">Team</a>
+</div>
+
+<!-- COLUMN 2 -->
+<div class="footer-col">
+<h4>Community</h4>
+<a href="#">Discord</a>
+<a href="#">Forums</a>
+<a href="#">Events</a>
+<a href="#">Challenges</a>
+</div>
+
+<!-- COLUMN 3 -->
+<div class="footer-col">
+<h4>Support</h4>
+<a href="#">Help Center</a>
+<a href="#">Privacy Policy</a>
+<a href="#">Terms of Service</a>
+<a href="#">Careers</a>
+</div>
+
+</div>
+
+<div class="footer-grid" style="margin-top:25px">
+
+<div class="footer-col">
+<h4>Legal</h4>
+<a href="#">Refund Policy</a>
+<a href="#">Security</a>
+<a href="#">Compliance</a>
+</div>
+
+<div class="footer-col">
+<h4>Features</h4>
+<a href="#">Game System</a>
+<a href="#">Wallet</a>
+<a href="#">Leaderboard</a>
+</div>
+
+<div class="footer-col">
+<h4>Contact</h4>
+<a href="#">Email Support</a>
+<a href="#">Live Chat</a>
+<a href="#">Report Issue</a>
+</div>
+
+</div>
+
+<div class="bottom">
+© 2026 Playful Earth Gamers • All Rights Reserved • Powered by Firebase & Paystack
+</div>
+
+</footer>
+
+<!-- ===================== YOUR EXISTING JS STAYS SAME ===================== -->
+<script type="module">
+// KEEP YOUR EXISTING FIREBASE + PAYSTACK LOGIC HERE
+</script>
+
+</body>
+</html>

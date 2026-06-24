@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEG | Playful Earth Gamers Official</title>
+    
+    <!-- CSS & Fonts -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- SDKs -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <style>
+        :root { --p-green: #00ff88; --p-purple: #a855f7; --p-cyan: #00f2fe; }
+        body { font-family: 'Poppins', sans-serif; background: #000; color: #fff; overflow-x: hidden; }
+        .font-gamer { font-family: 'Orbitron', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(30px); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 24px; }
+        
+        /* Video BG */
+        #bg-video { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -2; filter: brightness(0.3); }
+        .overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: -1; }
+
+        /* Navigation */
+        .nav-link { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 2px; color: #888; transition: 0.3s; cursor: pointer; }
+        .nav-link:hover, .nav-link.active { color: var(--p-green); }
+        
+        /* Layout Controllers */
+        .hidden-section { display: none !important; }
+        .theater-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease-in-out; }
+        .theater-slide.active { opacity: 1; z-index: 10; }
+
+        /* Grid */
+        .game-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .game-card:hover { transform: scale(1.05) translateY(-10px); border-color: var(--p-green); }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--p-purple); border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop playsinline id="bg-video">
+        <source src="https://assets.mixkit.co/videos/preview/mixkit-gaming-setup-with-neon-lights-and-keyboard-close-up-34558-large.mp4" type="video/mp4">
+    </video>
+    <div class="overlay"></div>
+
+    <!-- 1. AUTH PORTAL (Visible first) -->
+    <div id="auth-portal" class="min-h-screen flex flex-col items-center justify-center p-6">
+        <nav class="fixed top-0 w-full p-8 flex justify-between items-center max-w-7xl mx-auto z-50">
+            <h1 class="text-4xl font-black italic text-green-500 font-gamer">PEG</h1>
+            <button onclick="toggleAuth('login')" class="text-xs font-bold uppercase tracking-widest border border-white/20 px-8 py-3 rounded-full hover:bg-white/10 transition">Login</button>
+        </nav>
+        <main class="max-w-5xl w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10 pt-20">
+            <div class="space-y-6">
+                <h2 class="text-7xl font-black italic uppercase leading-tight font-gamer">The Earth Is <br><span class="text-green-500">Your Arena.</span></h2>
+                <p class="text-gray-400 text-lg">Register for $1 Founders fee to unlock the global tournament ecosystem.</p>
+            </div>
+            <div class="glass p-10">
+                <div id="view-register">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Sign Up</h3>
+                    <form id="regForm" class="space-y-4">
+                        <select id="r-country" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none"><option value="GH">Ghana (GHS)</option><option value="NG">Nigeria (NGN)</option><option value="US">USA (USD)</option></select>
+                        <input type="text" id="r-name" placeholder="Full Name" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                        <input type="email" id="r-email" placeholder="Email" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                        <input type="password" id="r-pass" placeholder="Password" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                        <button type="submit" class="w-full py-4 bg-green-500 text-black font-black rounded-xl uppercase tracking-widest hover:scale-[1.02] transition">Pay $1 & Join</button>
+                    </form>
+                </div>
+                <div id="view-login" class="hidden-section">
+                    <h3 class="text-2xl font-bold mb-6 uppercase">Login</h3>
+                    <form id="loginForm" class="space-y-4">
+                        <input type="email" id="l-email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                        <input type="password" id="l-password" placeholder="Password" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                        <button type="submit" class="w-full py-4 bg-purple-600 font-black rounded-xl uppercase tracking-widest transition hover:bg-purple-500">Enter Arena</button>
+                    </form>
+                    <button onclick="toggleAuth('register')" class="w-full mt-6 text-xs text-gray-500 hover:text-green-500 font-bold">New? Register here</button>
+                </div>
+            </div>
+        </main>
+    </div>
+
+
+    <!-- 2. MAIN APP CONTENT (Hidden until Auth) -->
+    <div id="main-app" class="hidden-section">
+        
+        <!-- TOP NAVIGATION -->
+        <nav class="sticky top-0 z-[200] bg-black/90 backdrop-blur-2xl border-b border-white/10 px-10 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-12">
+                <h1 class="text-3xl font-black italic text-green-500 font-gamer cursor-pointer" onclick="switchView('hub')">PEG</h1>
+                <div class="hidden lg:flex gap-8">
+                    <span class="nav-link active" id="link-hub" onclick="switchView('hub')">Home</span>
+                    <span class="nav-link" onclick="switchView('profile')">Challenges</span>
+                    <span class="nav-link" onclick="switchView('profile')">Wallet</span>
+                    <span class="nav-link" id="link-profile" onclick="switchView('profile')">Leaderboard</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-3 bg-white/5 px-5 py-2 rounded-2xl border border-white/10 cursor-pointer hover:bg-white/10" onclick="switchView('profile')">
+                    <img id="u-avatar" src="" class="w-8 h-8 rounded-full border-2 border-green-500">
+                    <div class="text-left">
+                        <p id="u-name" class="text-xs font-bold leading-none">Member</p>
+                        <p class="text-[9px] text-green-500 font-bold uppercase mt-1">Level 24</p>
+                    </div>
+                </div>
+                <button onclick="logout()" class="text-red-500 font-bold text-[10px] uppercase border border-red-500/20 px-4 py-2 rounded-xl hover:bg-red-500/10">Logout</button>
+            </div>
+        </nav>
+
+        <!-- VIEW: GLOBAL HUB (IMAGE 1) -->
+        <div id="view-hub" class="max-w-[1600px] mx-auto p-12 space-y-24">
+            
+            <!-- THEATER HERO -->
+            <section class="relative overflow-hidden rounded-[50px] glass h-[650px] shadow-2xl group border-white/5">
+                <div id="theater-slides" class="relative h-full w-full">
+                    <!-- Slide 1: Highlights -->
+                    <div class="theater-slide active flex flex-col justify-center p-20 bg-black/40">
+                        <span class="bg-red-600 px-4 py-1 rounded-full w-fit text-[10px] font-black uppercase mb-6 tracking-widest animate-pulse">Live Broadcast</span>
+                        <h2 class="text-8xl font-black italic uppercase font-gamer leading-none">PRO HIGHLIGHTS <br><span class="text-green-500">OF THE WEEK</span></h2>
+                        <p class="text-gray-400 max-w-xl mt-8 text-lg font-medium leading-relaxed">Watch ShadowX dominate the Free Fire Arena. Sponsorship opportunities available for the Summer Finals.</p>
+                        <button class="mt-10 bg-white text-black px-10 py-4 rounded-2xl font-black uppercase text-sm tracking-widest w-fit hover:scale-110 transition">Watch highlights</button>
+                    </div>
+                    <!-- Slide 2: Top Members -->
+                    <div class="theater-slide flex flex-col items-center justify-center p-12 bg-black/60">
+                        <h2 class="text-4xl font-black font-gamer mb-16 uppercase italic">Top Ranked Members</h2>
+                        <div class="grid grid-cols-5 gap-8 items-end w-full max-w-6xl">
+                            <div class="text-center glass p-4 opacity-60"><img src="https://i.pravatar.cc/100?u=2" class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-purple-500"><h4>Ninja</h4></div>
+                            <div class="text-center glass p-4 opacity-60"><img src="https://i.pravatar.cc/100?u=3" class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-purple-500"><h4>IONix</h4></div>
+                            <div class="text-center glass p-10 border-2 border-yellow-500 scale-125 z-20 shadow-2xl bg-black/50">
+                                <img src="https://i.pravatar.cc/150?u=1" class="w-24 h-24 rounded-full mx-auto mb-4 border-4 border-yellow-500">
+                                <h4 class="text-xl font-bold">ShadowX</h4><span class="text-[9px] bg-yellow-500 text-black px-3 py-1 rounded font-black mt-2 inline-block">CONQUEROR #1</span>
+                            </div>
+                            <div class="text-center glass p-4 opacity-60"><img src="https://i.pravatar.cc/100?u=4" class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-purple-500"><h4>ReFlexx</h4></div>
+                            <div class="text-center glass p-4 opacity-60"><img src="https://i.pravatar.cc/100?u=5" class="w-16 h-16 rounded-full mx-auto mb-2 border-2 border-purple-500"><h4>VENOM</h4></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute top-10 right-10 z-[50] glass px-6 py-2 flex items-center gap-3 border-white/10">
+                    <span class="text-[9px] font-black uppercase tracking-[3px]">PEG Global TV</span>
+                    <i class="fa-solid fa-signal text-green-500 animate-bounce"></i>
+                </div>
+            </section>
+
+            <!-- CATEGORY ROW -->
+            <section class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="glass p-12 text-center hover:bg-white/5 cursor-pointer border-b-4 border-blue-500"><i class="fa-solid fa-mobile-screen text-4xl text-blue-500 mb-6"></i><h4 class="font-gamer text-sm uppercase">Mobile</h4></div>
+                <div class="glass p-12 text-center hover:bg-white/5 cursor-pointer border-b-4 border-green-500"><i class="fa-solid fa-gamepad text-4xl text-green-500 mb-6"></i><h4 class="font-gamer text-sm uppercase">Console</h4></div>
+                <div class="glass p-12 text-center hover:bg-white/5 cursor-pointer border-b-4 border-cyan-500"><i class="fa-solid fa-desktop text-4xl text-cyan-500 mb-6"></i><h4 class="font-gamer text-sm uppercase">PC Games</h4></div>
+                <div class="glass p-12 text-center hover:bg-white/5 cursor-pointer border-b-4 border-orange-500"><i class="fa-solid fa-joystick text-4xl text-orange-500 mb-6"></i><h4 class="font-gamer text-sm uppercase">Arcade</h4></div>
+            </section>
+
+            <!-- 42 CHALLENGES GRID -->
+            <section>
+                <div class="flex justify-between items-end mb-12 border-l-4 border-green-500 pl-8">
+                    <div>
+                        <h3 class="text-xs font-black text-purple-500 uppercase tracking-[6px] mb-4">Live Floor</h3>
+                        <h2 class="text-5xl font-black italic uppercase font-gamer">Arena <span class="text-green-500">Challenges</span></h2>
+                    </div>
+                    <button class="bg-white/5 px-8 py-3 rounded-xl text-[10px] font-black uppercase border border-white/10 hover:bg-white/10 transition">View global map</button>
+                </div>
+                <div id="hub-grid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8"></div>
+            </section>
+        </div>
+
+        <!-- VIEW: USER PROFILE (IMAGE 2) -->
+        <div id="view-profile" class="hidden-section max-w-7xl mx-auto p-12">
+            <div class="grid grid-cols-12 gap-8">
+                <!-- Profile Header -->
+                <div class="col-span-12 lg:col-span-8 glass p-12 flex items-center gap-12 relative overflow-hidden">
+                    <div class="relative">
+                        <img id="prof-avatar" src="" class="w-40 h-40 rounded-full border-4 border-green-500 shadow-[0_0_30px_#00ff88]">
+                        <button class="absolute bottom-2 right-2 bg-blue-500 p-3 rounded-full border-4 border-black"><i class="fa-solid fa-pen text-xs"></i></button>
+                    </div>
+                    <div class="flex-1">
+                        <div class="flex items-center gap-4 mb-3">
+                            <h2 id="prof-name" class="text-5xl font-bold">PEG Player</h2>
+                            <i class="fa-solid fa-circle-check text-green-500 text-2xl"></i>
+                            <span class="bg-green-500/10 text-green-500 text-[10px] font-black px-4 py-1.5 rounded-full border border-green-500/20">PRO GAMER</span>
+                        </div>
+                        <p class="text-gray-500 font-bold mb-8">@pegplayer24 • Verified Global Founder</p>
+                        <div class="w-full h-3 bg-white/5 rounded-full overflow-hidden border border-white/5">
+                            <div class="h-full bg-gradient-to-r from-green-500 to-cyan-500 w-[68%] shadow-[0_0_15px_#00ff88]"></div>
+                        </div>
+                        <div class="flex justify-between text-[11px] font-black uppercase mt-3 text-gray-500"><span>Level 24</span><span>68% XP Progress</span></div>
+                    </div>
+                    <div class="absolute -right-20 -top-20 opacity-[0.03] text-[300px] font-black italic select-none">PEG</div>
+                </div>
+
+                <!-- Wallet Card -->
+                <div class="col-span-12 lg:col-span-4 glass p-12 flex flex-col justify-between border-green-500/20 bg-green-500/5">
+                    <div>
+                        <h4 class="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Total PEG Balance</h4>
+                        <p class="text-6xl font-black text-green-500 leading-none">$1,250.00</p>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4 mt-12">
+                        <button class="bg-green-500 text-black py-4 rounded-2xl font-black uppercase text-[10px]">Add Funds</button>
+                        <button class="bg-white/10 text-white py-4 rounded-2xl font-black uppercase text-[10px] hover:bg-white/20 transition">Withdraw</button>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="col-span-12 grid grid-cols-2 md:grid-cols-4 gap-8">
+                    <div class="glass p-8 text-center"><p class="text-[10px] text-gray-500 uppercase font-black mb-4">Total Wins</p><p class="text-4xl font-black">128</p></div>
+                    <div class="glass p-8 text-center"><p class="text-[10px] text-gray-500 uppercase font-black mb-4">Win Rate</p><p class="text-4xl font-black text-purple-500">72%</p></div>
+                    <div class="glass p-8 text-center"><p class="text-[10px] text-gray-500 uppercase font-black mb-4">Challenges</p><p class="text-4xl font-black">342</p></div>
+                    <div class="glass p-8 text-center"><p class="text-[10px] text-gray-500 uppercase font-black mb-4">Total Earned</p><p class="text-4xl font-black text-green-500">$3,450</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- FOOTER: TRUST & PARTNERS -->
+        <footer class="bg-black/95 pt-32 pb-16 px-10 border-t border-white/5 mt-32 relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-16 mb-24">
+                    <div><h4 class="text-green-500 font-bold mb-8 uppercase text-[10px] tracking-widest">Global Ecosystem</h4><ul class="space-y-4 text-sm font-bold text-gray-500"><li>Challenges</li><li>Ranking</li><li>Community Hub</li></ul></div>
+                    <div><h4 class="text-green-500 font-bold mb-8 uppercase text-[10px] tracking-widest">Financial Ops</h4><ul class="space-y-4 text-sm font-bold text-gray-500"><li>PEG Virtual Card</li><li>Gamer Loans</li><li>Secure Wallet</li></ul></div>
+                    <div><h4 class="text-green-500 font-bold mb-8 uppercase text-[10px] tracking-widest">Global Support</h4><ul class="space-y-4 text-sm font-bold text-gray-500"><li>Privacy Policy</li><li>Terms of Service</li><li>Help Desk</li></ul></div>
+                    <div class="flex flex-col items-end">
+                        <!-- BANK & PAYMENT LOGOS (IMAGE REQUEST) -->
+                        <div class="flex flex-wrap justify-end gap-6 items-center mb-10 grayscale hover:grayscale-0 transition-all opacity-70 hover:opacity-100">
+                            <img src="https://paystack.com/assets/img/login/paystack-logo.svg" class="h-6" title="Paystack Official">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="h-4">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" class="h-10">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" class="h-10">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/Standard_Chartered_(2021).svg" class="h-6" title="Standard Chartered">
+                            <img src="https://upload.wikimedia.org/wikipedia/commons/4/4c/Absa_Logo.svg" class="h-6" title="Absa Group">
+                        </div>
+                        <div class="flex gap-8 text-3xl">
+                            <a href="#" class="text-[#1877F2] hover:scale-125 transition"><i class="fa-brands fa-facebook"></i></a>
+                            <a href="#" class="text-[#E4405F] hover:scale-125 transition"><i class="fa-brands fa-instagram"></i></a>
+                            <a href="#" class="text-white hover:scale-125 transition"><i class="fa-brands fa-x-twitter"></i></a>
+                            <a href="#" class="text-[#FF0000] hover:scale-125 transition"><i class="fa-brands fa-youtube"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center pt-10 border-t border-white/5">
+                    <h3 class="text-2xl font-black tracking-[25px] text-gray-800 uppercase mb-4">Playful Earth Gamers</h3>
+                    <p class="text-[9px] text-gray-700 tracking-[10px] uppercase">&copy; 2026 GLOBAL ARENA OPS LTD. ALL RIGHTS RESERVED.</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // --- 1. FIREBASE INITIALIZATION (REPLACE PLACEHOLDERS) ---
+        const firebaseConfig = { apiKey: "...", authDomain: "...", projectId: "...", storageBucket: "...", messagingSenderId: "...", appId: "..." };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // --- 2. GLOBAL SYSTEM LOGIC ---
+        auth.onAuthStateChanged(async (user) => {
+            const portal = document.getElementById('auth-portal');
+            const app = document.getElementById('main-app');
+
+            if (user) {
+                // ADMIN BYPASS + PAYMENT CHECK
+                if (user.email === "pekay3058@gmail.com") {
+                    enterSystem({ fullname: "Pekay Admin" });
+                } else {
+                    const doc = await db.collection("users").doc(user.uid).get();
+                    if (doc.exists && doc.data().paidMember) {
+                        enterSystem(doc.data());
+                    } else {
+                        await auth.signOut();
+                        alert("Please register and pay the $1 fee.");
+                    }
+                }
+            } else {
+                portal.classList.remove('hidden-section');
+                app.classList.add('hidden-section');
+            }
+        });
+
+        function enterSystem(userData) {
+            document.getElementById('auth-portal').classList.add('hidden-section');
+            document.getElementById('main-app').classList.remove('hidden-section');
+            
+            // Sync Profile Data
+            const name = userData.fullname.split(' ')[0];
+            document.getElementById('u-name').innerText = name;
+            document.getElementById('prof-name').innerText = userData.fullname;
+            const avatar = `https://ui-avatars.com/api/?name=${userData.fullname}&background=00ff88&color=000&bold=true`;
+            document.getElementById('u-avatar').src = avatar;
+            document.getElementById('prof-avatar').src = avatar;
+        }
+
+        function switchView(view) {
+            const hub = document.getElementById('view-hub');
+            const profile = document.getElementById('view-profile');
+            const linkHub = document.getElementById('link-hub');
+            const linkProf = document.getElementById('link-profile');
+
+            hub.classList.add('hidden-section');
+            profile.classList.add('hidden-section');
+            linkHub.classList.remove('active');
+            linkProf.classList.remove('active');
+
+            if(view === 'hub') { hub.classList.remove('hidden-section'); linkHub.classList.add('active'); }
+            if(view === 'profile') { profile.classList.remove('hidden-section'); linkProf.classList.add('active'); }
+            window.scrollTo(0,0);
+        }
+
+        // --- 3. AUTH & PAYSTACK HANDLERS ---
+        function toggleAuth(v) {
+            document.getElementById('view-register').classList.toggle('hidden-section', v === 'login');
+            document.getElementById('view-login').classList.toggle('hidden-section', v === 'register');
+        }
+
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const country = document.getElementById('r-country').value;
+            const rates = { "GH":{c:"GHS", r:15}, "NG":{c:"NGN", r:1600}, "US":{c:"USD", r:1} };
+            const sel = rates[country] || rates["US"];
+
+            let handler = PaystackPop.setup({
+                key: 'YOUR_PAYSTACK_PUBLIC_KEY',
+                email: document.getElementById('r-email').value,
+                amount: sel.r * 100, // To Subunits
+                currency: sel.c,
+                callback: function(res) {
+                    const name = document.getElementById('r-name').value;
+                    const email = document.getElementById('r-email').value;
+                    const pass = document.getElementById('r-pass').value;
+                    auth.createUserWithEmailAndPassword(email, pass).then(cred => {
+                        db.collection("users").doc(cred.user.uid).set({ fullname: name, email, paidMember: true, country, payRef: res.reference });
+                    });
+                }
+            });
+            handler.openIframe();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try { await auth.signInWithEmailAndPassword(document.getElementById('l-email').value, document.getElementById('l-password').value); } 
+            catch(err) { alert(err.message); }
+        });
+
+        function logout() { auth.signOut().then(() => window.location.reload()); }
+
+        // --- 4. THEATER SLIDESHOW LOGIC ---
+        const slides = document.querySelectorAll('.theater-slide');
+        let curSlide = 0;
+        setInterval(() => {
+            slides[curSlide].classList.remove('active');
+            curSlide = (curSlide + 1) % slides.length;
+            slides[curSlide].classList.add('active');
+        }, 12000);
+
+        // --- 5. GRID GENERATION (42 Items) ---
+        const hubGrid = document.getElementById('hub-grid');
+        for(let i=1; i<=42; i++) {
+            hubGrid.innerHTML += `
+                <div class="glass p-5 game-card cursor-pointer border-white/5">
+                    <img src="https://picsum.photos/seed/${i+888}/300/400" class="rounded-3xl mb-5 h-56 w-full object-cover">
+                    <h4 class="text-[10px] font-black uppercase mb-1 tracking-widest">CHALLENGE #${i}</h4>
+                    <p class="text-[9px] text-green-500 font-bold">$${(Math.random()*2000+50).toFixed(0)} Pool</p>
+                </div>`;
+        }
+    </script>
+</body>
+</html>
