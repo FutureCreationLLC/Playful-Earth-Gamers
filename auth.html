@@ -286,9 +286,88 @@ Payments processed securely via Paystack • Verified by Firebase
 </footer>
 
 <!-- ===================== YOUR EXISTING JS STAYS SAME ===================== -->
-<script type="module">
-// KEEP YOUR EXISTING FIREBASE + PAYSTACK LOGIC HERE
-</script>
 
+<script>
+/* ================= FIREBASE INIT ================= */
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+
+export const app = initializeApp({
+apiKey: "AIzaSyCf-bbCtJ31zMqA6RrDG4aPqzBuLz15IOQ",
+authDomain: "playful-earth-gamers.firebaseapp.com",
+projectId: "playful-earth-gamers",
+storageBucket: "playful-earth-gamers.firebasestorage.app",
+messagingSenderId: "184415545346",
+appId: "1:184415545346:web:d75805eb285807d7541f1b",
+measurementId: "G-N7K8HS1M37"
+});
+
+const auth = firebase.auth();
+const db = firebase.firestore();
+
+/* ================= REGISTER + PAYSTACK ================= */
+document.getElementById("register").onclick = function () {
+
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+if (!email || !password) {
+alert("Fill all fields");
+return;
+}
+
+auth.createUserWithEmailAndPassword(email, password)
+.then((userCred) => {
+
+const user = userCred.user;
+
+/* PAYSTACK PAYMENT */
+PaystackPop.setup({
+key: "YOUR_PAYSTACK_PUBLIC_KEY",
+email: email,
+amount: 100, // $1 = 100 cents equivalent handling
+callback: async function (response) {
+
+await db.collection("members").doc(user.uid).set({
+paid: true,
+email: email,
+reference: response.reference,
+created: Date.now()
+});
+
+window.location.href = "index.html";
+
+}
+}).openIframe();
+
+})
+.catch(err => alert(err.message));
+
+};
+
+/* ================= LOGIN ================= */
+document.getElementById("login").onclick = function () {
+
+const email = document.getElementById("email").value;
+const password = document.getElementById("password").value;
+
+auth.signInWithEmailAndPassword(email, password)
+.then(async (userCred) => {
+
+const user = userCred.user;
+
+const doc = await db.collection("members").doc(user.uid).get();
+
+if (!doc.exists || doc.data().paid !== true) {
+alert("Payment required to access platform");
+return;
+}
+
+window.location.href = "index.html";
+
+})
+.catch(err => alert(err.message));
+
+};
+</script>
 </body>
 </html>
