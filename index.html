@@ -5,19 +5,10 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-D418C10NKQ"></script> <script> window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-D418C10NKQ'); </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PEG | Global Playful Earth Gamers</title>
-    
-    <!-- External Resources -->
+    <title>PEG | Playful Earth Gamers Platform</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- SDKs -->
-    <script src="https://js.paystack.co/v1/inline.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></script>
     <style>
         :root { --p-green: #00ff88; --p-purple: #a855f7; }
         body { font-family: 'Poppins', sans-serif; background: #05010d; color: #fff; overflow-x: hidden; }
@@ -35,7 +26,7 @@
         .hexagon img { width: 100%; height: 100%; object-fit: cover; opacity: 0.6; }
         .hexagon:hover { transform: scale(1.1); filter: brightness(1.2); box-shadow: 0 0 20px var(--p-green); z-index: 10; }
 
-       <!-- Theater  Video Boards -->
+       /* Theater  Video Boards */
         .theater-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease-in-out; }
         .theater-slide.active { opacity: 1; z-index: 10; }
         .video-rect { border-radius: 40px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
@@ -47,10 +38,20 @@
         /* Game Card Engine */
         .game-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
         .game-card:hover { transform: scale(1.08) translateY(-10px); border-color: var(--p-green); box-shadow: 0 0 30px rgba(0,255,136,0.15); }
+
+        /* Footers link */
+        footer-link { color: #9ca3af; font-size: 0.85rem; display: block; margin-bottom: 0.75rem; transition: color 0.2s; }
+        .footer-link:hover { color: #ffffff; }
+
         
         /* Payout Badge Styling */
         .payout-logo { height: 25px; filter: grayscale(0); transition: 0.3s; }
         .payout-logo:hover { transform: scale(1.1); }
+
+        
+        /* Smooth Fade for Slideshow */
+        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; }
+        .slide.active { opacity: 1; }
     </style>
 </head>
 <body>
@@ -73,8 +74,8 @@
         <!-- Auth Body -->
         <div class="max-w-xl w-full glass p-12 text-center my-10 border-purple-500/20 shadow-2xl relative overflow-hidden">
             <div id="view-reg">
-                <h2 class="text-3xl font-black mb-4 uppercase italic">Founders Program</h2>
-                <p class="text-gray-400 text-sm mb-10 font-medium leading-relaxed italic">Verify identity & prevent bots. Early members pay a **one-time $1 USD fee** to unlock Founder status and 0% commission on tournament wins.</p>
+                <h2 class="text-3xl font-black mb-4 uppercase italic">Early Access Program</h2>
+                <p class="text-gray-400 text-sm mb-10 font-medium leading-relaxed italic">Verify identity & prevent bots. Early members pay a **one-time $1 USD fee** to unlock Gamer status and 0% commission on tournament wins.</p>
                 <form id="regForm" class="space-y-4">
                     <select id="r-country" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none"><option value="GH">Ghana (GHS)</option><option value="NG">Nigeria (NGN)</option><option value="US">International (USD)</option></select>
                     <input type="text" id="r-name" placeholder="Full Name" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
@@ -143,8 +144,8 @@
             <!-- BROADCAST THEATER (Top Billboard) -->
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
                 <div class="lg:col-span-8 video-rect h-[500px] shadow-2xl relative group">
-                    <video autoplay muted loop playsinline class="absolute inset-0 z-0 opacity-40">
-                        <source src="https://assets.mixkit.co/videos/preview/mixkit-software-developer-working-on-a-code-34563-large.mp4">
+                    <video autoplay muted loop playsinline id="bg-video-global">
+                    <source src="assets/video/bg-video-global.mp4" type="video/mp4">
                     </video>
                     <div class="absolute inset-0 bg-gradient-to-r from-black via-black/40 flex flex-col justify-center p-16">
                         <span class="bg-red-600 px-4 py-1 rounded w-fit text-[10px] font-black uppercase mb-6 tracking-widest">Global Broadcast Live</span>
@@ -187,10 +188,12 @@
                 <div class="lg:col-span-2 space-y-8">
                     <h3 class="text-2xl font-black uppercase italic text-blue-400 font-gamer">Broadband News Board</h3>
                     <div class="video-rect h-[450px] shadow-2xl">
-                        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover opacity-50"><source src="https://assets.mixkit.co/videos/preview/mixkit-gamers-playing-in-a-cyber-cafe-34562-large.mp4"></video>
+                        <video autoplay muted loop playsinline id="bg-video-global">
+    <source src="assets/video/bg-video-global.mp4" type="video/mp4">
+                        </video>
                         <div class="absolute bottom-0 left-0 p-12 bg-gradient-to-t from-black via-black/40 w-full">
                             <h4 class="text-4xl font-black uppercase italic tracking-tighter">GLOBAL SCRIMS: ACCRA & Las Vegas</h4>
-                            <p class="text-gray-400 mt-4 max-w-xl">We have officially expanded our low-latency servers to Africa. Local matches with $2,500 pools start Friday.</p>
+                            <p class="text-gray-400 mt-4 max-w-xl">We have officially expanded our  servers globally. Local matches with $2,500 pools start Friday.</p>
                         </div>
                     </div>
                 </div>
@@ -567,7 +570,7 @@
             document.getElementById('view-profile').classList.toggle('hidden-section', v !== 'profile');
             document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
             document.getElementById('nav-'+(v==='hub'?'hub':'prof')).classList.add('active');
-            window.scrollTo(0,0);
+            window.scrollTo(1);
         }
         function toggleAuth() {
             document.getElementById('view-reg').classList.toggle('hidden-section');
