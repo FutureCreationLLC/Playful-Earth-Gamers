@@ -52,12 +52,22 @@
 </head>
 <body>
 
+
     <!-- GLOBAL DYNAMIC VIDEO BACKGROUND -->
     <video autoplay muted loop playsinline id="bg-video-global">
     <source src="assets/video/bg-video-global.mp4" type="video/mp4">
 </video>
     <div class="overlay-mask"></div>
 
+    <!-- SDK -->
+</script>src="https://js.paystack.co/v1/inline.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-storage-compat.js"></script>
+    
+    
     <!-- 1. AUTH GATE (SIGN UP / SIGN IN) -->
     <div id="auth-gate" class="min-h-screen flex flex-col items-center justify-between p-6 bg-black/40">
         
