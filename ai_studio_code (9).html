@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PEG | Playful Earth Games Platform</title>
+    
+    <!-- SDKs -->
+    <script src="https://js.paystack.co/v1/inline.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <!-- Styles -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;600;800&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <style>
+        :root { --p-green: #00ff88; --p-purple: #a855f7; }
+        body { font-family: 'Poppins', sans-serif; background: #05010d; color: white; overflow-x: hidden; }
+        .gaming-font { font-family: 'Oswald', sans-serif; }
+        .font-gamer { font-family: 'Orbitron', sans-serif; }
+        .glass { background: rgba(255, 255, 255, 0.02); backdrop-filter: blur(40px); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 24px; }
+        
+        /* VIDEO BACKGROUNDS */
+        #bg-video-global { position: fixed; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -10; filter: brightness(0.25); }
+        .overlay-mask { position: fixed; inset: 0; background: radial-gradient(circle, transparent 20%, #000 100%); z-index: -9; }
+
+        /* CONTENT VISIBILITY */
+        .hidden-section { display: none !important; }
+        #main-platform { display: none; } /* Locked by JS */
+
+        /* THEATER & BOARDS */
+        .video-rect { border-radius: 40px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.05); }
+        .theater-slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1.5s ease; }
+        .theater-slide.active { opacity: 1; z-index: 10; }
+
+        /* GAME CARDS */
+        .game-card { transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; border: 1px solid rgba(255,255,255,0.05); }
+        .game-card:hover { transform: scale(1.08) translateY(-10px); border-color: var(--p-green); box-shadow: 0 0 30px rgba(0,255,136,0.15); }
+        
+        /* FOOTER LINK REPAIR */
+        .footer-link { color: #9ca3af; font-size: 0.85rem; display: block; margin-bottom: 0.75rem; transition: color 0.2s; text-decoration: none; }
+        .footer-link:hover { color: #ffffff; }
+    </style>
+</head>
+<body>
+
+    <!-- GLOBAL SITE VIDEO BACKGROUND -->
+    <video autoplay muted loop playsinline id="bg-video-global">
+        <source src="assets/video/bg-video-global.mp4" type="video/mp4">
+    </video>
+    <div class="overlay-mask"></div>
+
+    <!-- 1. AUTH GATE (SIGN UP / SIGN IN) -->
+    <div id="auth-gate" class="min-h-screen flex flex-col items-center justify-center p-6 z-[9999] relative">
+        <div class="max-w-xl w-full glass p-12 text-center border-purple-500/20 shadow-2xl">
+            <h1 class="text-4xl font-black italic text-green-500 font-gamer mb-8">PEG</h1>
+            
+            <div id="view-reg">
+                <h2 class="text-2xl font-bold mb-4 uppercase italic">Founder Access</h2>
+                <p class="text-gray-400 text-xs mb-8 leading-relaxed italic">Early founders pay a **$1.00 USD activation fee** to secure ID and prevent bot entry. Managed globally by Paystack.</p>
+                <form id="regForm" class="space-y-4">
+                    <select id="r-country" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                        <option value="" disabled selected>Select Your Country</option>
+                        <option value="GH">Ghana (GHS)</option>
+                        <option value="NG">Nigeria (NGN)</option>
+                        <option value="US">USA / International (USD)</option>
+                    </select>
+                    <input type="text" id="r-name" placeholder="Full Name" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                    <input type="email" id="r-email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                    <input type="password" id="r-pass" placeholder="Create Password" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                    <button type="submit" class="w-full py-5 bg-green-500 text-black font-black rounded-2xl uppercase tracking-widest hover:shadow-[0_0_20px_#00ff88]">Pay $1 & Create Profile</button>
+                </form>
+                <p class="mt-6 text-xs text-gray-500">Registered? <button onclick="toggleAuth()" class="text-green-500 font-bold">Login Here</button></p>
+            </div>
+
+            <div id="view-log" class="hidden-section">
+                <h2 class="text-3xl font-black mb-10 uppercase italic">Welcome Back</h2>
+                <form id="loginForm" class="space-y-4">
+                    <input type="email" id="l-email" placeholder="Email" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                    <input type="password" id="l-password" placeholder="Password" required class="w-full bg-white/5 border border-white/10 p-4 rounded-xl outline-none">
+                    <button type="submit" class="w-full py-5 bg-purple-600 font-black rounded-2xl uppercase">Enter Arena</button>
+                </form>
+                <button onclick="toggleAuth()" class="mt-8 text-xs text-gray-500 hover:text-green-500 font-bold">New founder? Register</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 2. MAIN PLATFORM -->
+    <div id="main-platform">
+        <!-- Navbar -->
+        <nav class="sticky top-0 z-[200] bg-black/90 backdrop-blur-2xl border-b border-white/10 px-8 py-5 flex justify-between items-center">
+            <div class="flex items-center gap-12">
+                <h1 class="text-3xl font-black italic text-green-500 font-gamer cursor-pointer">PEG</h1>
+                <div class="hidden lg:flex gap-10">
+                    <span class="nav-link active font-bold text-white border-b-2 border-purple-500" onclick="navigate('hub')">Home</span>
+                    <span class="nav-link" onclick="navigate('profile')">My Profile</span>
+                    <span class="nav-link" onclick="navigate('hub')">Challenges</span>
+                </div>
+            </div>
+            <div class="flex items-center gap-6">
+                <div class="flex items-center gap-4 bg-white/5 px-6 py-2 rounded-2xl border border-white/10">
+                    <img id="u-avatar" src="" class="w-8 h-8 rounded-full border-2 border-green-500">
+                    <span id="u-name" class="text-xs font-bold">Member</span>
+                </div>
+                <button onclick="logout()" class="text-red-500 font-bold text-[10px] uppercase border border-red-500/20 px-4 py-2 rounded-xl">Logout</button>
+            </div>
+        </nav>
+
+        <div id="view-hub" class="max-w-[1700px] mx-auto p-12 space-y-24">
+            
+            <!-- BROADCAST THEATER (VIDEO BOARD 1) -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 video-rect h-[500px] shadow-2xl relative group">
+                    <video autoplay muted loop playsinline class="absolute inset-0 z-0 opacity-40">
+                        <source src="assets/video/bg-video-glol.mp4" type="video/mp4">
+                    </video>
+                    <div class="absolute inset-0 bg-gradient-to-r from-black via-black/40 flex flex-col justify-center p-16">
+                        <span class="bg-red-600 px-4 py-1 rounded w-fit text-[10px] font-black uppercase mb-6 tracking-widest">Global Broadcast Live</span>
+                        <h2 class="text-7xl font-black italic font-gamer leading-none uppercase tracking-tighter text-white">THE HUB OF <br><span class="text-green-500">CHAMPIONS.</span></h2>
+                        <button class="mt-10 bg-white text-black px-10 py-4 rounded-2xl font-black uppercase text-sm w-fit hover:scale-105 transition">Register For Scrims</button>
+                    </div>
+                </div>
+                
+                <div class="lg:col-span-4 glass p-8 flex flex-col">
+                    <h4 class="text-xs font-black uppercase tracking-[5px] mb-8 text-purple-400">Top Members of Week</h4>
+                    <div id="top-member-list" class="space-y-4 flex-1"></div>
+                </div>
+            </div>
+
+            <!-- CHALLENGES GRID -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div class="lg:col-span-3 space-y-8">
+                    <div class="glass p-6 border-l-4 border-red-500"><h4 class="text-xs font-black uppercase text-red-500 mb-6">Live Now</h4><div id="live-sidebar" class="space-y-4"></div></div>
+                    <div class="glass p-6 border-l-4 border-purple-500"><h4 class="text-xs font-black uppercase text-purple-400 mb-6">Schedule</h4><div id="match-sidebar" class="space-y-4"></div></div>
+                </div>
+                <div class="lg:col-span-9">
+                    <h3 id="grid-title" class="text-3xl font-black mb-10 uppercase font-gamer border-l-4 border-green-500 pl-6 text-white">Active <span class="text-green-500">Challenges</span></h3>
+                    <div id="game-grid" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6"></div>
+                </div>
+            </div>
+
+            <!-- NEWS BOARD (VIDEO BOARD 2) -->
+            <section class="grid grid-cols-1 lg:grid-cols-3 gap-12 border-t border-white/10 pt-24 pb-20">
+                <div class="lg:col-span-2 space-y-8">
+                    <h3 class="text-2xl font-black uppercase italic text-blue-400 font-gamer">Broadcast News Board</h3>
+                    <div class="video-rect h-[450px] shadow-2xl">
+                        <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover opacity-50">
+                            <source src="assets/video/bg-video-l.mp4" type="video/mp4">
+                        </video>
+                        <div class="absolute bottom-0 left-0 p-12 bg-gradient-to-t from-black via-black/40 w-full">
+                            <h4 class="text-4xl font-black uppercase italic tracking-tighter text-white">GLOBAL COMPETITION LIVE</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-10">
+                    <h3 class="text-2xl font-black uppercase italic text-green-500 font-gamer">Trending Now</h3>
+                    <div class="hex-grid" id="trending-hex"></div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PROFILE VIEW -->
+        <div id="view-profile" class="hidden-section max-w-7xl mx-auto p-12 pt-32 space-y-12">
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="lg:col-span-2 glass p-12 flex items-center gap-10">
+                    <img id="p-avatar" src="" class="w-48 h-44 rounded-full border-4 border-green-500 shadow-2xl">
+                    <div>
+                        <h2 id="p-name" class="text-5xl font-black">...</h2>
+                        <p class="text-green-500 font-bold uppercase text-xs mt-4">Verified Global Elite</p>
+                    </div>
+                </div>
+                <div class="glass p-12 flex flex-col justify-between">
+                    <p class="text-xs font-black text-gray-500 uppercase tracking-widest">Global Balance</p>
+                    <p class="text-6xl font-black text-green-500">$1,250.00</p>
+                    <button class="w-full py-5 bg-blue-600 rounded-3xl font-black uppercase text-[10px]">Manage Wallet</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- YOUR PAIRED FOOTER CONTENT -->
+        <section class="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-16 border-t border-white/5 max-w-[1600px] mx-auto p-12">
+            <div class="space-y-6">
+                <h4 class="text-xs font-black tracking-widest text-gray-500 uppercase">Upcoming Tournaments</h4>
+                <div class="space-y-4">
+                    <div class="glass p-4 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-4"><div class="w-10 h-10 bg-purple-900 rounded-lg flex items-center justify-center font-bold text-xs">24 MAY</div><div><p class="text-[10px] font-black uppercase">PUBG Mobile INDIA Cup</p></div></div>
+                        <button class="bg-purple-600 text-[8px] font-black px-4 py-1.5 rounded uppercase">Register</button>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <h4 class="text-xs font-black tracking-widest text-gray-500 uppercase">Future Events</h4>
+                <div class="space-y-4">
+                    <div class="glass p-4 rounded-xl flex items-center justify-between">
+                        <div class="flex items-center gap-4"><div class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center font-bold text-xs text-gray-500">01 JUN</div><div><p class="text-[10px] font-black uppercase">Rocket League Cup</p></div></div>
+                        <button class="glass text-[8px] font-black px-4 py-1.5 rounded uppercase">Notify Me</button>
+                    </div>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <h4 class="text-xs font-black tracking-widest text-gray-500 uppercase">Live Now</h4>
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-3"><img src="https://api.dicebear.com/7.x/avataaars/svg?seed=ShadowX" class="w-8 h-8 rounded-full border border-purple-500"><div class="text-[10px] font-black uppercase"><p>ShadowX</p></div></div>
+                        <div class="text-red-500 font-bold text-[9px] uppercase"><span class="animate-pulse">●</span> 4.2K</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- YOUR FULL FOOTER -->
+        <footer class="bg-[#040404] border-t border-white/5 mt-20 pt-20 pb-10">
+            <div class="max-w-[1400px] mx-auto px-8">
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-12 mb-20">
+                    <div><h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">ECOSYSTEM</h3><a href="#" class="footer-link">Challenges</a><a href="#" class="footer-link">Global Ranking</a></div>
+                    <div><h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">PLATFORMS</h3><a href="#" class="footer-link">Mobile Arena</a><a href="#" class="footer-link">PC Battleground</a></div>
+                    <div><h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">FINANCE</h3><a href="#" class="footer-link">PEG Wallet</a><a href="#" class="footer-link">Virtual Card</a></div>
+                    <div><h3 class="text-[11px] font-black tracking-[0.2em] mb-8 uppercase">ABOUT US</h3><a href="#" class="footer-link">Privacy Policy</a><a href="#" class="footer-link">Help Center</a></div>
+                </div>
+
+                <div class="flex flex-wrap justify-center items-center gap-8 mb-20">
+                    <img src="https://paystack.com/assets/img/login/paystack-logo.svg" class="h-8" alt="Paystack">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="h-8" alt="Visa">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" class="h-10" alt="Mastercard">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" class="h-8" alt="MTN">
+                    <div class="text-sm font-black uppercase text-red-500">Telecel Cash</div>
+                    <div class="text-sm font-black uppercase text-blue-500">AirtelTigo Money</div>
+                </div>
+
+                <div class="border-t border-white/5 pt-12 flex flex-col items-center">
+                    <div class="mb-10 flex flex-col items-center">
+                        <img src="assets/logo/peg-logo.png" alt="PEG" class="h-12 mb-4">
+                        <p class="text-[10px] font-black tracking-[0.4em] text-gray-500 uppercase">Playful Earth Gamers</p>
+                    </div>
+
+                    <div class="flex flex-wrap justify-center items-center gap-12 md:gap-20 text-center mb-12">
+                        <div><p class="text-[9px] font-black text-gray-600 mb-4 uppercase">Delivery Services</p>
+                            <div class="flex items-center gap-3 px-5 py-3 rounded-xl glass border border-white/5"><i data-lucide="zap" class="text-yellow-500"></i><span class="text-sm font-bold text-gray-300">Instant Digital Payouts</span></div>
+                        </div>
+                        <div><p class="text-[9px] font-black text-gray-600 mb-4 uppercase">Security</p>
+                            <div class="flex items-center gap-3 px-5 py-3 rounded-xl glass border border-white/5"><i data-lucide="shield-check" class="text-green-500"></i><span class="text-sm font-bold text-gray-300">SSL Secured Platform</span></div>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-10 text-2xl mb-12">
+                        <a href="#" class="text-[#1877F2]"><i class="fa-brands fa-facebook"></i></a>
+                        <a href="#" class="text-[#E4405F]"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="#" class="text-white"><i class="fa-brands fa-x-twitter"></i></a>
+                        <a href="#" class="text-[#FF0000]"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="#" class="text-[#5865F2]"><i class="fa-brands fa-discord"></i></a>
+                    </div>
+
+                    <div class="text-center pt-10 border-t border-white/5 w-full">
+                        <p class="text-[10px] font-black tracking-[0.35em] text-gray-600 uppercase mb-2">PLAYFUL EARTH GAMERS (PEG)</p>
+                        <p class="text-[11px] text-gray-500 font-semibold mb-2">© 2024 All Rights Reserved</p>
+                        <p class="text-[10px] text-gray-700 tracking-wide">Global Gaming Competitions • Secure Payments • Digital Rewards</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- LOGIC SYSTEM -->
+    <script>
+        // 1. FIREBASE CONFIG
+        const firebaseConfig = { apiKey: "AIzaSyCf-bbCtJ31zMqA6RrDG4aPqzBuLz15IOQ", authDomain: "playful-earth-gamers.firebaseapp.com", projectId: "playful-earth-gamers", storageBucket: "playful-earth-gamers.firebasestorage.app", messagingSenderId: "184415545346", appId: "1:184415545346:web:d75805eb285807d7541f1b" };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // 2. SECURITY & AUTH LISTENERS
+        auth.onAuthStateChanged(async (user) => {
+            const gate = document.getElementById('auth-gate');
+            const platform = document.getElementById('main-platform');
+            if (user) {
+                if (user.email === "pekay3058@gmail.com") {
+                    initApp({ fullname: "Pekay Admin" });
+                } else {
+                    const doc = await db.collection("users").doc(user.uid).get();
+                    if (doc.exists && doc.data().paidMember) {
+                        initApp(doc.data());
+                    } else {
+                        await auth.signOut();
+                        alert("Membership Activation Required ($1).");
+                    }
+                }
+            } else {
+                gate.classList.remove('hidden-section');
+                platform.style.display = 'none';
+            }
+        });
+
+        function initApp(data) {
+            document.getElementById('auth-gate').classList.add('hidden-section');
+            const platform = document.getElementById('main-platform');
+            platform.style.display = 'block';
+            document.getElementById('u-name').innerText = data.fullname.split(' ')[0];
+            document.getElementById('p-name').innerText = data.fullname;
+            const av = `https://ui-avatars.com/api/?name=${data.fullname}&background=00ff88&color=000&bold=true`;
+            document.getElementById('u-avatar').src = av;
+            document.getElementById('p-avatar').src = av;
+            buildGrid();
+        }
+
+        // 3. UI GENERATORS
+        function buildGrid() {
+            const grid = document.getElementById('game-grid');
+            const list = document.getElementById('top-member-list');
+            const hex = document.getElementById('trending-hex');
+            
+            // Generate 45 Grid Games
+            grid.innerHTML = Array(45).fill(0).map((_, i) => `<div class="glass p-5 game-card bg-black/30"><img src="https://picsum.photos/seed/${i+155}/400/500" class="rounded-[2.5rem] mb-5 h-56 w-full object-cover grayscale-[0.4] hover:grayscale-0"><h4 class="text-[10px] font-black uppercase mb-1 tracking-widest text-gray-500">Arena Duel #${i+101}</h4><p class="text-[9px] text-green-500 font-bold">$${(Math.random()*1500+100).toFixed(0)} Pool</p></div>`).join('');
+            
+            // Top Members List
+            list.innerHTML = ["ShadowX", "Ninja", "GoD_OP", "VENOM"].map((m, i) => `<div class="glass p-4 flex justify-between items-center bg-black/40"><div class="flex items-center gap-4"><span class="text-xs opacity-30">${i+1}</span><img src="https://i.pravatar.cc/100?u=${m}" class="w-8 h-8 rounded-full"><p class="text-xs font-bold">${m}</p></div><p class="text-[9px] font-black text-green-500 uppercase">${15000 - i*200} PTS</p></div>`).join('');
+
+            // Hexagons
+            hex.innerHTML = Array(12).fill(0).map((_, i) => `<div class="hexagon"><img src="https://picsum.photos/seed/${i+99}/200/200"></div>`).join('');
+        }
+
+        // 4. NAVIGATION & ACTIONS
+        function navigate(v) {
+            document.getElementById('view-hub').classList.toggle('hidden-section', v !== 'hub');
+            document.getElementById('view-profile').classList.toggle('hidden-section', v !== 'profile');
+            window.scrollTo(0,0);
+        }
+        function toggleAuth() {
+            document.getElementById('view-reg').classList.toggle('hidden-section');
+            document.getElementById('view-log').classList.toggle('hidden-section');
+        }
+        
+        document.getElementById('regForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('r-email').value;
+            const rates = { "GH":15, "NG":1600, "US":1 };
+            const amount = rates[document.getElementById('r-country').value] * 100;
+            let handler = PaystackPop.setup({
+                key: 'pk_test_YOUR_KEY', // REPLACE THIS
+                email: email, amount: amount,
+                callback: (res) => {
+                    const pass = document.getElementById('r-pass').value;
+                    const name = document.getElementById('r-name').value;
+                    auth.createUserWithEmailAndPassword(email, pass).then(cred => {
+                        db.collection("users").doc(cred.user.uid).set({ fullname: name, email, paidMember: true, payRef: res.reference });
+                    });
+                }
+            });
+            handler.openIframe();
+        });
+
+        document.getElementById('loginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            try { await auth.signInWithEmailAndPassword(document.getElementById('l-email').value, document.getElementById('l-password').value); } 
+            catch(err) { alert(err.message); }
+        });
+
+        function logout() { auth.signOut().then(() => window.location.reload()); }
+        lucide.createIcons();
+    </script>
+</body>
+</html>
