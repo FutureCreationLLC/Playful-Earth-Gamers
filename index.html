@@ -68,8 +68,7 @@
 
     
     <!-- 1. AUTH GATE (SIGN UP / SIGN IN) -->
-    <div id="auth-gate" class="min-h-screen flex flex-col items-center justify-between p-6 bg-black/40">
-        
+    <div id="auth-gate" class="fixed inset-0 flex items-center justify-center bg-black/60 hidden-section">
         <!-- Header -->
         <div class="w-full flex justify-between items-center px-10 py-6 max-w-7xl">
             <h1 class="text-4xl font-black italic text-green-500 font-gamer tracking-tighter">PEG</h1>
@@ -100,7 +99,7 @@
         </div>
 
     <!-- 2. MAIN HUB (HIDDEN UNTIL LOGIN) -->
-    <div id="main-platform" class="hidden-section">
+    <div id="main-platform">
         
         <!-- Navbar -->
         <nav class="sticky top-0 z-[200] bg-black/90 backdrop-blur-2xl border-b border-white/10 px-8 py-5 flex justify-between items-center">
@@ -473,17 +472,34 @@ auth.onAuthStateChanged(async (user) => {
         platform.classList.add('hidden-section');
     }
 });
-        function initApp(data) {
-            document.getElementById('auth-gate').classList.add('hidden-section');
-            document.getElementById('main-platform').classList.remove('hidden-section');
-            document.getElementById('u-name').innerText = data.fullname.split(' ')[0];
-            document.getElementById('p-name').innerText = data.fullname;
-            const av = `https://ui-avatars.com/api/?name=${data.fullname}&background=00ff88&color=000&bold=true`;
-            document.getElementById('u-avatar').src = av;
-            document.getElementById('p-avatar').src = av;
-            buildDashboardDynamics();
-        }
+        
+function initApp(data = {}) {
 
+    const fullName = data.fullname || "Player";
+
+    document.getElementById('auth-gate').classList.add('hidden-section');
+    document.getElementById('main-platform').classList.remove('hidden-section');
+
+    const firstName = fullName.split(' ')[0];
+
+    const uName = document.getElementById('u-name');
+    const pName = document.getElementById('p-name');
+
+    if (uName) uName.innerText = firstName;
+    if (pName) pName.innerText = fullName;
+
+    const av = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}&background=00ff88&color=000&bold=true`;
+
+    const uAvatar = document.getElementById('u-avatar');
+    const pAvatar = document.getElementById('p-avatar');
+
+    if (uAvatar) uAvatar.src = av;
+    if (pAvatar) pAvatar.src = av;
+
+    if (typeof buildDashboardDynamics === "function") {
+        buildDashboardDynamics();
+    }
+}
         // 3. UI GENERATOR ENGINE
         function buildDashboardDynamics() {
             // Rank Members
