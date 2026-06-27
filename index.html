@@ -47,11 +47,6 @@
         /* Payout Badge Styling */
         .payout-logo { height: 25px; filter: grayscale(0); transition: 0.3s; }
         .payout-logo:hover { transform: scale(1.1); }
-
-        
-        /* Smooth Fade for Slideshow */
-        .slide { position: absolute; inset: 0; opacity: 0; transition: opacity 1s ease-in-out; }
-        .slide.active { opacity: 1; }
     </style>
 </head>
 <body>
@@ -93,27 +88,6 @@
                 </form>
             </div>
         </div>
-
-        <!-- AUTH FOOTER (Trust Badges & Socials) -->
-        <div class="w-full max-w-6xl px-10 py-12 border-t border-white/5 flex flex-col items-center">
-            <div class="flex flex-wrap items-center gap-8 items-center mb-10 opacity-70 grayscale hover:grayscale-0 transition-all duration-700">
-                <img src="https://paystack.com/assets/img/login/paystack-logo.svg" class="h-6">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="h-5">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" class="h-4">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/a/a4/Mastercard_2019_logo.svg" class="h-10">
-                <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" class="h-10">
-                <div style="font-weight:900; color:#ed1c24; font-size:14px;">airtel<span style="color:#0054a6;">tigo</span></div>
-            </div>
-            <div class="flex gap-10 text-2xl mb-8">
-                <a href="#" class="text-[#1877F2]"><i class="fa-brands fa-facebook"></i></a>
-                <a href="#" class="text-[#E4405F]"><i class="fa-brands fa-instagram"></i></a>
-                <a href="#" class="text-white"><i class="fa-brands fa-x-twitter"></i></a>
-                <a href="#" class="text-[#FF0080]"><i class="fa-brands fa-youtube"></i></a>
-                <a href="#" class="text-[#FF0060]"><i class="fa-brands fa-tiktok"><i></a>  
-            <p class="text-[9px] text-gray-700 font-bold uppercase tracking-[10px]">© 2026 Playful Earth Gamers. All rights reserved. Global Ltd.</p>
-        </div>
-    </div>
-
 
     <!-- 2. MAIN HUB (HIDDEN UNTIL LOGIN) -->
     <div id="main-platform" class="hidden-section">
@@ -229,45 +203,7 @@
                 <div class="glass p-10 text-center"><p class="text-xs text-gray-500 font-black mb-4 uppercase">Earnings</p><p class="text-5xl font-black text-green-500">$3,450</p></div>
             </div>
         </div>
-
-        <!-- GLOBAL MAIN FOOTER -->
-        <footer class="bg-black/95 pt-40 pb-20 px-12 border-t border-white/10 mt-40">
-            <div class="max-w-7xl mx-auto">
-                <div class="grid grid-cols-1 md:grid-cols-4 gap-20 mb-32">
-                    <div><h4 class="text-green-500 font-black mb-10 uppercase text-[10px] tracking-[4px]">Platform</h4><ul class="space-y-4 text-sm font-bold text-gray-500 uppercase tracking-widest"><li><a href="#" onclick="navigate('hub')">Arena Hub</a></li><li><a href="#" onclick="navigate('profile')">Leaderboard</a></li><li><a href="#">Challenges</a></li></ul></div>
-                    <div><h4 class="text-green-500 font-black mb-10 uppercase text-[10px] tracking-[4px]">Finance</h4><ul class="space-y-4 text-sm font-bold text-gray-500 uppercase tracking-widest"><li><a href="#" onclick="navigate('profile')">PEG Wallet</a></li><li><a href="#">Gamer Loans</a></li><li><a href="#">Virtual Cards</a></li></ul></div>
-                    <div><h4 class="text-green-500 font-black mb-10 uppercase text-[10px] tracking-[4px]">Privacy</h4><ul class="space-y-4 text-sm font-bold text-gray-500 uppercase tracking-widest"><li><a href="#">Terms & Conditions</a></li><li><a href="#">Data Privacy</a></li><li><a href="#">Help Center</a></li></ul></div>
-                    
-                    <div class="flex flex-col items-center md:col-span-4 lg:col-span-1">
-                        <div class="flex flex-wrap justify-between gap-10 items-center mb-16 grayscale hover:grayscale-0 transition-all duration-1000 opacity-70">
-                            <img src="https://paystack.com/assets/img/login/paystack-logo.svg" class="payout-logo h-6">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b5/PayPal.svg" class="payout-logo h-5">
-                            <i class="fa-brands fa-cc-visa text-4xl text-[#1a1f71]"></i>
-                            <i class="fa-brands fa-cc-mastercard text-4xl text-[#eb001b]"></i>
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/9/93/MTN_Logo.svg" class="payout-logo h-10">
-                            <img src="https://upload.wikimedia.org/wikipedia/commons/d/d7/Telecel_Group_Logo.svg" class="payout-logo h-10">
-                            <img src="https://www.gstatic.com/mobilesdk/160503_mobilesdk/logo/2x/firebase_28dp.png" class="payout-logo h-8">
-                            <i class="fa-brands fa-cc-google text-4xl text-[#1a1f71]"></i>
-                            <i class="fa-brands fa-cc-discord text-4xl text-[#1a1f71]"></i>
-                            
-                        </div>
-                        <div class="flex gap-10 text-3xl">
-                            <a href="#" class="text-[#1877F2] hover:scale-125 transition"><i class="fa-brands fa-facebook"></i></a>
-                            <a href="#" class="text-[#E4405F] hover:scale-125 transition"><i class="fa-brands fa-instagram"></i></a>
-                            <a href="#" class="text-white hover:scale-125 transition"><i class="fa-brands fa-x-twitter"></i></a>
-                            <a href="#" class="text-[#FF0000] hover:scale-125 transition"><i class="fa-brands fa-youtube"></i></a>
-                            <a href="#" class="text-[#5865F2] hover:scale-125 transition"><i class="fa-brands fa-discord"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="text-center pt-20 border-t border-white/5">
-                    <h3 class="text-2xl font-black tracking-[45px] text-white-800 uppercase mb-8 ml-10">Playful Earth Gamers</h3>
-                    <p class="text-[9px] text-gray-700 tracking-[12px] uppercase font-black italic">&copy; 2026 GLOBAL GAMING OPERATIONS LTD. ALL RIGHTS RESERVED.</p>
-                </div>
-            </div>
-        </footer>
     </div>
-
                <!-- FOOTER CONTENT: TOURNAMENTS, FUTURE, LIVE STREAM (IMAGE CONTENT) -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-12 pt-16 border-t border-white/5">
             <!-- Upcoming Tournaments -->
@@ -483,6 +419,45 @@
     <!-- MAIN SYSTEM SCRIPTS -->
     <script>
         // 1. FIREBASE SETUP
+
+onAuthStateChanged(auth, async (user) => {
+
+    const authGate = document.getElementById("auth-gate");
+    const landingPage = document.getElementById("landing-page");
+
+    // Visitor is not signed in.
+    if (!user) {
+        authGate.style.display = "flex";
+        if (landingPage) landingPage.style.display = "none";
+        return;
+    }
+
+    // User is signed in.
+    const member = await getDoc(doc(db, "members", user.uid));
+
+    if (member.exists() && member.data().paid === true) {
+
+        authGate.style.display = "none";
+
+        if (landingPage) {
+            landingPage.style.display = "block";
+        }
+
+    } else {
+
+        await auth.signOut();
+        alert("Membership payment required.");
+
+        authGate.style.display = "flex";
+
+        if (landingPage) {
+            landingPage.style.display = "none";
+        }
+
+    }
+
+});
+        
         const firebaseConfig = { apiKey: "AIzaSyCf-bbCtJ31zMqA6RrDG4aPqzBuLz15IOQ", authDomain: "playful-earth-gamers.firebaseapp.com", projectId: "playful-earth-gamers", storageBucket: "playful-earth-gamers.firebasestorage.app", messagingSenderId: "184415545346", appId: "1:184415545346:web:d75805eb285807d7541f1b" };
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
