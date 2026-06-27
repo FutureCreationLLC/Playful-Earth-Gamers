@@ -9,6 +9,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700;900&family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></script>
+
+
+    <!-- Firebase v12 -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-app.js";
+  import { getAuth } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-auth.js";
+  import { getFirestore } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-firestore.js";
+  import { getStorage } from "https://www.gstatic.com/firebasejs/12.0.0/firebase-storage.js";
+</script>
+
+<!-- Paystack Inline -->
+<script src="https://js.paystack.co/v2/inline.js"></script>
+    
     <style>
         :root { --p-green: #00ff88; --p-purple: #a855f7; }
         body { font-family: 'Poppins', sans-serif; background: #05010d; color: #fff; overflow-x: hidden; }
@@ -419,44 +432,6 @@
     <!-- MAIN SYSTEM SCRIPTS -->
     <script>
         // 1. FIREBASE SETUP
-
-onAuthStateChanged(auth, async (user) => {
-
-    const authGate = document.getElementById("auth-gate");
-    const landingPage = document.getElementById("landing-page");
-
-    // Visitor is not signed in.
-    if (!user) {
-        authGate.style.display = "flex";
-        if (landingPage) landingPage.style.display = "none";
-        return;
-    }
-
-    // User is signed in.
-    const member = await getDoc(doc(db, "members", user.uid));
-
-    if (member.exists() && member.data().paid === true) {
-
-        authGate.style.display = "none";
-
-        if (landingPage) {
-            landingPage.style.display = "block";
-        }
-
-    } else {
-
-        await auth.signOut();
-        alert("Membership payment required.");
-
-        authGate.style.display = "flex";
-
-        if (landingPage) {
-            landingPage.style.display = "none";
-        }
-
-    }
-
-});
         
         const firebaseConfig = { apiKey: "AIzaSyCf-bbCtJ31zMqA6RrDG4aPqzBuLz15IOQ", authDomain: "playful-earth-gamers.firebaseapp.com", projectId: "playful-earth-gamers", storageBucket: "playful-earth-gamers.firebasestorage.app", messagingSenderId: "184415545346", appId: "1:184415545346:web:d75805eb285807d7541f1b" };
         firebase.initializeApp(firebaseConfig);
